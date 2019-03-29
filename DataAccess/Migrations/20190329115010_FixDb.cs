@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class Init : Migration
+    public partial class FixDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

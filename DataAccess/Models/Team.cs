@@ -7,7 +7,7 @@ namespace DataAccess.Models
     public class Team
     {
         public int Id { get; set; }
-        public string ImagePath { get; set; }
+        public Image Image { get; set; }
 
         public int TeamLeadId { get; set; }
         public User Teamlead { get; set; }

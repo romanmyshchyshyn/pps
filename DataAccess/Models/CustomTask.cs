@@ -21,6 +21,6 @@ namespace DataAccess.Models
 
         public List<CustomTask> RelatedCustomTasks { get; set; }
 
-        public List<string> ImagesPathes { get; set; }
+        public List<Image> Images { get; set; }
     }
 }

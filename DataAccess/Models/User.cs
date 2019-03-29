@@ -7,15 +7,13 @@ namespace DataAccess.Models
 {
     public class User : IdentityUser
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public string ImagePath { get; set; }
+        public Image Image { get; set; }
 
-        public int LeadOfTeamID { get; set; }
-        public Team LeadOfTeam { get; set; }
+        public Team IsTeamLead { get; set; }
 
-        public int UserTeamId { get; set; }
-        public Team UserTeam { get; set; }
+        public int TeamId { get; set; }
+        public Team Team { get; set; }
     }
 }
