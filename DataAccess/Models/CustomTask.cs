@@ -6,7 +6,7 @@ namespace DataAccess.Models
 {
     public class CustomTask
     {
-        public int TaskId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime CreationDate { get; set; }
@@ -19,7 +19,7 @@ namespace DataAccess.Models
         public int UserAssigneeId { get; set; }
         public User UserAssignee { get; set; }
 
-        public List<CustomTask> RelatedTasks { get; set; }
+        public List<CustomTask> RelatedCustomTasks { get; set; }
 
         public List<string> ImagesPathes { get; set; }
     }
