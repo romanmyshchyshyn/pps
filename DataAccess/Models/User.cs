@@ -11,9 +11,7 @@ namespace DataAccess.Models
         public string Surname { get; set; }
         public Image Image { get; set; }
 
-        public Team IsTeamLead { get; set; }
-
-        public int TeamId { get; set; }
+        public string TeamId { get; set; }
         public Team Team { get; set; }
     }
 }

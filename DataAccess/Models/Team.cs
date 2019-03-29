@@ -6,13 +6,13 @@ namespace DataAccess.Models
 {
     public class Team
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public Image Image { get; set; }
 
-        public int TeamLeadId { get; set; }
+        public string TeamLeadId { get; set; }
         public User Teamlead { get; set; }
 
-        public int ProjectId { get; set; }
+        public string ProjectId { get; set; }
         public Project Project { get; set; }
 
         public List<User> Users { get; set; }

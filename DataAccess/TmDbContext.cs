@@ -21,8 +21,10 @@ namespace DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasOne(e => e.IsTeamLead).WithOne(e => e.Teamlead)
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Team>()
+                .HasOne(e => e.Teamlead).WithOne()
                 .HasForeignKey<Team>(e => e.TeamLeadId);
         }
     }
