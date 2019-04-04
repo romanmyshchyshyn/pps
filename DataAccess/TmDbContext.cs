@@ -17,6 +17,7 @@ namespace DataAccess
         public TmDbContext(DbContextOptions<TmDbContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
