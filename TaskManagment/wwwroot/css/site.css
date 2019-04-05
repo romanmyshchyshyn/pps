@@ -22,7 +22,7 @@
 .parallax-home-container {
     left: 0;
     width: 100%;
-    height: 100vh;
+    flex-grow: 1;
     overflow: hidden;
     background: url(../images/background.jpg);
     background-attachment: fixed;
@@ -35,11 +35,36 @@
     background-blend-mode: screen;
 }
 
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 30px;
+}
+
+footer {
+    background-color: #222222;
+    color: #9d9d9d;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
 body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* Wrapping element */
