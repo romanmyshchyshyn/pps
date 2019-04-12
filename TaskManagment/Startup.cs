@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DataAccess;
 using DataAccess.Models;
+using TaskManagment.Middlewares;
 
 namespace TaskManagment
 {
@@ -61,6 +62,8 @@ namespace TaskManagment
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.ConfigureCustomExceptionMiddleware();
 
             app.UseAuthentication();
 
