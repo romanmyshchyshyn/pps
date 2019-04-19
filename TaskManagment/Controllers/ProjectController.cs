@@ -10,15 +10,16 @@ using DataAccess.Models;
 using Services.Implementation;
 using Services.Dto;
 using Microsoft.AspNetCore.Authorization;
+using Services.Interfaces;
 
 namespace TaskManagment.Controllers
 {
     [Authorize]
     public class ProjectController : Controller
     {
-        private readonly ProjectService _service;
+        private readonly IProjectService _service;
 
-        public ProjectController(ProjectService service)
+        public ProjectController(IProjectService service)
         {
             _service = service;
         }
