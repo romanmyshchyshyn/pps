@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataAccess.Models
+namespace Services.Filters
 {
-    public class Image
+    public class ImageFilter
     {
-        public string Id { get; set; }
         public string Path { get; set; }
     }
 }

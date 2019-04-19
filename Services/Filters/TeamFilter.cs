@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Services.Filters
 {
-    public class BaseFilter
+    public class TeamFilter : BaseFilter
     {
-        public string Name { get; set; }
     }
 }

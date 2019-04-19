@@ -14,6 +14,10 @@ using Microsoft.Extensions.DependencyInjection;
 using DataAccess;
 using DataAccess.Models;
 using TaskManagment.Middlewares;
+using DataAccess.Interfaces;
+using DataAccess.Implementation;
+using Services.Interfaces;
+using Services.Implementation;
 
 namespace TaskManagment
 {
@@ -41,6 +45,12 @@ namespace TaskManagment
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<User>()
                 .AddEntityFrameworkStores<TmDbContext>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICustomTaskService, CustomTaskService>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<ITeamService, TeamService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

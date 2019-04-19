@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataAccess.Models
+namespace Services.Dto
 {
-    public class Image
+    public class ImageDto
     {
         public string Id { get; set; }
         public string Path { get; set; }
