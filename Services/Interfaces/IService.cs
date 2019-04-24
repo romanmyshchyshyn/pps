@@ -6,10 +6,10 @@ namespace Services.Interfaces
 {
     public interface IService<TDto, TFilter>
     {
-        TDto Get(int id);
+        TDto Get(string id);
         IEnumerable<TDto> Get(TFilter filter);
         void Add(TDto dto);
-        void Remove(int id);
+        void Remove(string id);
         void Update(TDto dto);
     }
 }
