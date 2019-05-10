@@ -40,11 +40,6 @@ namespace Services.Implementation
               .Get(p => predicate(p))
               .ToList();
 
-            if (!entities.Any())
-            {
-                throw new ObjectNotFoundException();
-            }
-
             return entities.Select(e => MapToDto(e));
         }
 
