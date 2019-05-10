@@ -1,4 +1,4 @@
-﻿@model Services.Dto.ProjectDto
+﻿@model Services.Dto.CustomTaskDto
 
 @{
     ViewData["Title"] = "Delete";
@@ -17,8 +17,21 @@
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.Name)
-            </dd>            
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Deadline)
+            </dt>
+            <dd>
+                @Html.DisplayNameFor(model => model.Status)
+            </dd>
         </dl>
+
         <form asp-action="Delete">
             <input type="hidden" asp-for="Id" />
             <input type="submit" value="Delete" class="btn btn-default" /> |

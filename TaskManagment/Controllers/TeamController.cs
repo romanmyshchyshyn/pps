@@ -7,28 +7,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DataAccess;
 using DataAccess.Models;
-using Microsoft.AspNetCore.Authorization;
 using Services.Interfaces;
 using Services.Filters;
 using Services.Dto;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TaskManagment.Controllers
 {
     [Authorize]
-    public class ProjectController : Controller
+    public class TeamController : Controller
     {
-        private readonly IProjectService _service;
-        private readonly UserManager<User> _userManager;
+        private readonly ITeamService _service;
 
-        public ProjectController(IProjectService service, UserManager<User> userManager)
+        public TeamController(ITeamService service)
         {
             _service = service;
-            _userManager = userManager;
         }
 
-        public IActionResult Index(ProjectFilter filter)
+        public IActionResult Index(TeamFilter filter)
         {
             var list = _service.Get(filter).ToList();
             return View(list);
@@ -57,10 +53,8 @@ namespace TaskManagment.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] ProjectDto dto)
+        public IActionResult Create([Bind("Id,Name")] TeamDto dto)
         {
-            User user = await _userManager.FindByNameAsync(User.Identity.Name); // CHECK!!!
-            dto.OwnerId = user.Id;
             if (ModelState.IsValid)
             {
                 _service.Add(dto);
@@ -87,7 +81,7 @@ namespace TaskManagment.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, [Bind("Id,Name")] ProjectDto dto)
+        public IActionResult Edit(string id, [Bind("Id,Name")] TeamDto dto)
         {
             if (id != dto.Id)
             {

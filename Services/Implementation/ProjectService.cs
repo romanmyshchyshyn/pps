@@ -40,18 +40,13 @@ namespace Services.Implementation
               .Get(p => predicate(p))
               .ToList();
 
-            if (!entities.Any())
-            {
-                throw new ObjectNotFoundException();
-            }
-
             return entities.Select(e => MapToDto(e));
         }
 
         public override void Add(ProjectDto dto)
         {
             Project checkEntity = Repository
-                .Get(e => e.Id == dto.Id)
+                .Get(e => e.Id == dto.Id || e.Name == dto.Name)
                 .SingleOrDefault();
 
             if (checkEntity != null)
