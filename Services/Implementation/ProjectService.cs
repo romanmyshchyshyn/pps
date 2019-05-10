@@ -137,6 +137,11 @@ namespace Services.Implementation
                 result += e => e.Name == filter.Name;
             }
 
+            if (!String.IsNullOrEmpty(filter?.OwnerId))
+            {
+                result += e => e.OwnerId == filter.OwnerId;
+            }
+
             return result;
         }
     }
