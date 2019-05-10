@@ -19,7 +19,8 @@ namespace DataAccess.Models
         public string UserAssigneeId { get; set; }
         public User UserAssignee { get; set; }
 
-        public List<CustomTask> RelatedCustomTasks { get; set; }
+        public string ProjectId { get; set; }
+        public Project Project { get; set; }
 
         public List<Image> Images { get; set; }
     }

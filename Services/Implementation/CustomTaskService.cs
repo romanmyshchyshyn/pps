@@ -92,6 +92,7 @@ namespace Services.Implementation
             entity.Status = dto.Status;
             entity.UserAssigneeId = dto.UserAssigneeId;
             entity.UserCreatorId = dto.UserCreatorId;
+            entity.ProjectId = dto.ProjectId;
 
             Repository.Update(entity);
             _unitOfWork.SaveChanges();
@@ -113,7 +114,8 @@ namespace Services.Implementation
                 Description = entity.Description,
                 Status = entity.Status,
                 UserAssigneeId = entity.UserAssigneeId,
-                UserCreatorId = entity.UserCreatorId
+                UserCreatorId = entity.UserCreatorId,
+                ProjectId = entity.ProjectId
             };
 
             return dto;
@@ -135,7 +137,8 @@ namespace Services.Implementation
                 Description = dto.Description,
                 Status = dto.Status,
                 UserAssigneeId = dto.UserAssigneeId,
-                UserCreatorId = dto.UserCreatorId
+                UserCreatorId = dto.UserCreatorId,
+                ProjectId = dto.ProjectId
             };
 
             return entity;

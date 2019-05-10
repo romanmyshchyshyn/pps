@@ -27,6 +27,8 @@ namespace Services.Dto
 
         public string UserCreatorId { get; set; }       
 
-        public string UserAssigneeId { get; set; }        
+        public string UserAssigneeId { get; set; }
+
+        public string ProjectId { get; set; }
     }
 }

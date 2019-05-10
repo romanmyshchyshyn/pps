@@ -59,8 +59,7 @@ namespace TaskManagment.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] ProjectDto dto)
         {
-            User user = await _userManager.FindByNameAsync(User.Identity.Name); // CHECK!!!
-            dto.OwnerId = user.Id;
+            dto.OwnerId = User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             if (ModelState.IsValid)
             {
                 _service.Add(dto);

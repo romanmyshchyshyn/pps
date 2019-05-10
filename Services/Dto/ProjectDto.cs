@@ -11,6 +11,6 @@ namespace Services.Dto
 
         public string OwnerId { get; set; }        
 
-        public string ProjectManagerId { get; set; }        
+        public string ProjectManagerId { get; set; }     
     }
 }
