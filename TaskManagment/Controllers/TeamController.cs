@@ -7,160 +7,118 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DataAccess;
 using DataAccess.Models;
+using Services.Interfaces;
+using Services.Filters;
+using Services.Dto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TaskManagment.Controllers
 {
+    [Authorize]
     public class TeamController : Controller
     {
-        private readonly TmDbContext _context;
+        private readonly ITeamService _service;
 
-        public TeamController(TmDbContext context)
+        public TeamController(ITeamService service)
         {
-            _context = context;
+            _service = service;
         }
 
-        // GET: Team
-        public async Task<IActionResult> Index()
+        public IActionResult Index(TeamFilter filter)
         {
-            var tmDbContext = _context.Teams.Include(t => t.Project).Include(t => t.Teamlead);
-            return View(await tmDbContext.ToListAsync());
+            var list = _service.Get(filter).ToList();
+            return View(list);
         }
 
-        // GET: Team/Details/5
-        public async Task<IActionResult> Details(string id)
+        public IActionResult Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var team = await _context.Teams
-                .Include(t => t.Project)
-                .Include(t => t.Teamlead)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (team == null)
+            var dto = _service.Get(id);
+            if (dto == null)
             {
                 return NotFound();
             }
 
-            return View(team);
+            return View(dto);
         }
 
-        // GET: Team/Create
         public IActionResult Create()
         {
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Id");
-            ViewData["TeamLeadId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
-        // POST: Team/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,TeamLeadId,ProjectId")] Team team)
+        public IActionResult Create([Bind("Id,Name")] TeamDto dto)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(team);
-                await _context.SaveChangesAsync();
+                _service.Add(dto);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Id", team.ProjectId);
-            ViewData["TeamLeadId"] = new SelectList(_context.Users, "Id", "Id", team.TeamLeadId);
-            return View(team);
+            return View(dto);
         }
 
-        // GET: Team/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public IActionResult Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var team = await _context.Teams.FindAsync(id);
-            if (team == null)
+            var dto = _service.Get(id);
+            if (dto == null)
             {
                 return NotFound();
             }
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Id", team.ProjectId);
-            ViewData["TeamLeadId"] = new SelectList(_context.Users, "Id", "Id", team.TeamLeadId);
-            return View(team);
+
+            return View(dto);
         }
 
-        // POST: Team/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,TeamLeadId,ProjectId")] Team team)
+        public IActionResult Edit(string id, [Bind("Id,Name")] TeamDto dto)
         {
-            if (id != team.Id)
+            if (id != dto.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(team);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TeamExists(team.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _service.Update(dto);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Id", team.ProjectId);
-            ViewData["TeamLeadId"] = new SelectList(_context.Users, "Id", "Id", team.TeamLeadId);
-            return View(team);
+
+            return View(dto);
         }
 
-        // GET: Team/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public IActionResult Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var team = await _context.Teams
-                .Include(t => t.Project)
-                .Include(t => t.Teamlead)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (team == null)
+            var dto = _service.Get(id);
+            if (dto == null)
             {
                 return NotFound();
             }
 
-            return View(team);
+            return View(dto);
         }
 
-        // POST: Team/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public IActionResult DeleteConfirmed(string id)
         {
-            var team = await _context.Teams.FindAsync(id);
-            _context.Teams.Remove(team);
-            await _context.SaveChangesAsync();
+            _service.Remove(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool TeamExists(string id)
-        {
-            return _context.Teams.Any(e => e.Id == id);
         }
     }
 }
