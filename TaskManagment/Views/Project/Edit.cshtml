@@ -1,4 +1,4 @@
-﻿@model Services.Dto.ProjectDto
+﻿@model TaskManagment.ViewModels.ProjectViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -18,7 +18,17 @@
                     <label asp-for="Name" class="control-label"></label>
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
-                </div>                
+                </div>
+                <div class="form-group">
+                    <label asp-for="OwnerUserName" class="control-label"></label>
+                    <input asp-for="OwnerUserName" class="form-control" />
+                    <span asp-validation-for="OwnerUserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProjectManagerUserName" class="control-label"></label>
+                    <input asp-for="ProjectManagerUserName" class="form-control" />
+                    <span asp-validation-for="ProjectManagerUserName" class="text-danger"></span>
+                </div>
                 <div class="form-group">
                     <input type="submit" value="Save" class="btn btn-default" />
                 </div>

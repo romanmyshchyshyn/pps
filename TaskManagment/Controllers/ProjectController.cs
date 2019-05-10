@@ -13,6 +13,8 @@ using Services.Filters;
 using Services.Dto;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using TaskManagment.ViewModels;
+using Services.Exceptions;
 
 namespace TaskManagment.Controllers
 {
@@ -28,13 +30,29 @@ namespace TaskManagment.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index(ProjectFilter filter)
+        public async Task<IActionResult> Index(ProjectFilter filter)
         {
+            string ownerId = User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            if (filter == null)
+            {
+                filter = new ProjectFilter { OwnerId = ownerId };
+            }
+            else
+            {
+                filter.OwnerId = ownerId;
+            }
+
             var list = _service.Get(filter).ToList();
-            return View(list);
+            var listViewModel = new List<ProjectViewModel>();
+            foreach (var item in list)
+            {
+                listViewModel.Add(await MapToViewModel(item));
+            }
+
+            return View(listViewModel);
         }
 
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -47,7 +65,9 @@ namespace TaskManagment.Controllers
                 return NotFound();
             }
 
-            return View(dto);
+            ProjectViewModel vm = await MapToViewModel(dto);
+
+            return View(vm);
         }
 
         public IActionResult Create()
@@ -57,18 +77,28 @@ namespace TaskManagment.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] ProjectDto dto)
+        public async Task<IActionResult> Create([Bind("Id,Name,ProjectManagerUserName")] ProjectViewModel vm)
         {
-            dto.OwnerId = User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             if (ModelState.IsValid)
             {
-                _service.Add(dto);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    vm.OwnerUserName = User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value;
+                    ProjectDto dto = await MapToDto(vm);
+                    _service.Add(dto);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (ObjectNotFoundException)
+                {
+                    ModelState.AddModelError("ProjectManagerUserName", "User does not exist. Invalid login");
+                    vm.ProjectManagerUserName = null;
+                    return View(vm);
+                }                
             }
-            return View(dto);
+            return View(vm);
         }
 
-        public IActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -81,28 +111,38 @@ namespace TaskManagment.Controllers
                 return NotFound();
             }
 
-            return View(dto);
+            ProjectViewModel vm = await MapToViewModel(dto);
+
+            return View(vm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, [Bind("Id,Name")] ProjectDto dto)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,ProjectManagerUserName,OwnerUserName")] ProjectViewModel vm)
         {
-            if (id != dto.Id)
+            if (id != vm.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                _service.Update(dto);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    ProjectDto dto = await MapToDto(vm);
+                    _service.Update(dto);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (ObjectNotFoundException)
+                {
+                    return View(vm);
+                }                
             }
 
-            return View(dto);
+            return View(vm);
         }
 
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -115,7 +155,9 @@ namespace TaskManagment.Controllers
                 return NotFound();
             }
 
-            return View(dto);
+            ProjectViewModel vm = await MapToViewModel(dto);
+
+            return View(vm);
         }
 
         [HttpPost, ActionName("Delete")]
@@ -124,6 +166,81 @@ namespace TaskManagment.Controllers
         {
             _service.Remove(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task<ProjectDto> MapToDto(ProjectViewModel vm)
+        {
+            User projectManager = await _userManager.FindByNameAsync(vm.ProjectManagerUserName);
+            User owner = await _userManager.FindByNameAsync(vm.OwnerUserName);
+            bool isObjectNotFound = false;
+            if (projectManager == null)
+            {
+                AddUserNotExistModelError("ProjectManagerUserName");
+                vm.ProjectManagerUserName = null;
+                isObjectNotFound = true;
+            }
+
+            if (owner == null)
+            {
+                AddUserNotExistModelError("OwnerUserName");
+                vm.OwnerUserName = null;
+                isObjectNotFound = true;
+            }
+
+            if (isObjectNotFound)
+            {
+                throw new ObjectNotFoundException();
+            }
+
+            ProjectDto dto = new ProjectDto
+            {
+                Id = vm.Id,
+                Name = vm.Name,
+                OwnerId = owner.Id,
+                ProjectManagerId = projectManager.Id
+            };
+
+            return dto;
+        }
+
+        private async Task<ProjectViewModel> MapToViewModel(ProjectDto dto)
+        {
+            User projectManager = await _userManager.FindByIdAsync(dto.ProjectManagerId);
+            User owner = await _userManager.FindByIdAsync(dto.OwnerId);
+            bool isObjectNotFound = false;
+            if (projectManager == null)
+            {
+                AddUserNotExistModelError("ProjectManagerUserName");
+                dto.ProjectManagerId = null;
+                isObjectNotFound = true;
+            }
+
+            if (owner == null)
+            {
+                AddUserNotExistModelError("OwnerUserName");
+                dto.OwnerId = null;
+                isObjectNotFound = true;
+            }
+
+            if (isObjectNotFound)
+            {
+                throw new ObjectNotFoundException();
+            }
+
+            ProjectViewModel vm = new ProjectViewModel
+            {
+                Id = dto.Id,
+                Name = dto.Name,
+                OwnerUserName = owner.UserName,
+                ProjectManagerUserName = projectManager.UserName
+            };
+
+            return vm;
+        }
+
+        private void AddUserNotExistModelError(string fieldName)
+        {
+            ModelState.AddModelError(fieldName, "User does not exist. Invalid login");
         }
     }
 }

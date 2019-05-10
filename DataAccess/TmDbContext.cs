@@ -27,6 +27,9 @@ namespace DataAccess
             modelBuilder.Entity<Team>()
                 .HasOne(e => e.Teamlead).WithOne()
                 .HasForeignKey<Team>(e => e.TeamLeadId);
+
+            modelBuilder.Entity<User>()
+                .HasAlternateKey(u => u.UserName);
         }
     }
 }
