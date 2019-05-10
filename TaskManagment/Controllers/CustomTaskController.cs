@@ -1,34 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using DataAccess;
-using DataAccess.Models;
-using Microsoft.AspNetCore.Authorization;
-using Services.Interfaces;
-using Services.Filters;
 using Services.Dto;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
+using Services.Filters;
+using Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace TaskManagment.Controllers
 {
     [Authorize]
-    public class ProjectController : Controller
+    public class CustomTaskController : Controller
     {
-        private readonly IProjectService _service;
-        private readonly UserManager<User> _userManager;
+        private readonly ICustomTaskService _service;
 
-        public ProjectController(IProjectService service, UserManager<User> userManager)
+        public CustomTaskController(ICustomTaskService service)
         {
             _service = service;
-            _userManager = userManager;
         }
 
-        public IActionResult Index(ProjectFilter filter)
+        public IActionResult Index(CustomTaskFilter filter)
         {
             var list = _service.Get(filter).ToList();
             return View(list);
@@ -48,7 +42,7 @@ namespace TaskManagment.Controllers
             }
 
             return View(dto);
-        }
+        }       
 
         public IActionResult Create()
         {
@@ -57,10 +51,8 @@ namespace TaskManagment.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] ProjectDto dto)
+        public IActionResult Create([Bind("Id,Name,Description,CreationDate,DeadLine,Status")] CustomTaskDto dto)
         {
-            User user = await _userManager.FindByNameAsync(User.Identity.Name); // CHECK!!!
-            dto.OwnerId = user.Id;
             if (ModelState.IsValid)
             {
                 _service.Add(dto);
@@ -81,13 +73,13 @@ namespace TaskManagment.Controllers
             {
                 return NotFound();
             }
-
+            
             return View(dto);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, [Bind("Id,Name")] ProjectDto dto)
+        public IActionResult Edit(string id, [Bind("Id,Name,Description,CreationDate,DeadLine,Status")] CustomTaskDto dto)
         {
             if (id != dto.Id)
             {

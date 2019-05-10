@@ -92,7 +92,7 @@ namespace Services.Implementation
 
             entity.Name = dto.Name;
             entity.CreationDate = dto.CreationDate;
-            entity.DeadLine = dto.DeadLine;
+            entity.Deadline = dto.Deadline;
             entity.Description = dto.Description;
             entity.Status = dto.Status;
             entity.UserAssigneeId = dto.UserAssigneeId;
@@ -114,7 +114,7 @@ namespace Services.Implementation
                 Id = entity.Id,
                 Name = entity.Name,
                 CreationDate = entity.CreationDate,
-                DeadLine = entity.DeadLine,
+                Deadline = entity.Deadline,
                 Description = entity.Description,
                 Status = entity.Status,
                 UserAssigneeId = entity.UserAssigneeId,
@@ -136,7 +136,7 @@ namespace Services.Implementation
                 Id = dto.Id,
                 Name = dto.Name,
                 CreationDate = dto.CreationDate,
-                DeadLine = dto.DeadLine,
+                Deadline = dto.Deadline,
                 Description = dto.Description,
                 Status = dto.Status,
                 UserAssigneeId = dto.UserAssigneeId,

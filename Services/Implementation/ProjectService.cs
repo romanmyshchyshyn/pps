@@ -51,7 +51,7 @@ namespace Services.Implementation
         public override void Add(ProjectDto dto)
         {
             Project checkEntity = Repository
-                .Get(e => e.Id == dto.Id)
+                .Get(e => e.Id == dto.Id || e.Name == dto.Name)
                 .SingleOrDefault();
 
             if (checkEntity != null)
