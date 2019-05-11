@@ -6,5 +6,6 @@ namespace Services.Filters
 {
     public class CustomTaskFilter : BaseFilter
     {
+        public string ProjectId { get; set; }
     }
 }

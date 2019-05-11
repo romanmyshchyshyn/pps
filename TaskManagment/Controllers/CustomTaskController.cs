@@ -25,6 +25,7 @@ namespace TaskManagment.Controllers
 
         public IActionResult Index(CustomTaskFilter filter)
         {
+            ViewBag.ProjectId = filter?.ProjectId;
             var list = _service.Get(filter).ToList();
             return View(list);
         }
@@ -45,19 +46,20 @@ namespace TaskManagment.Controllers
             return View(dto);
         }       
 
-        public IActionResult Create()
+        public IActionResult Create(string projectId)
         {
+            ViewBag.ProjectId = projectId;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Name,Description,CreationDate,DeadLine,Status")] CustomTaskDto dto)
+        public IActionResult Create([Bind("Id,Name,Description,CreationDate,DeadLine,Status,ProjectId")] CustomTaskDto dto)
         {
             if (ModelState.IsValid)
             {
                 _service.Add(dto);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { ProjectId = dto.ProjectId });
             }
             return View(dto);
         }
@@ -80,7 +82,7 @@ namespace TaskManagment.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, [Bind("Id,Name,Description,CreationDate,DeadLine,Status")] CustomTaskDto dto)
+        public IActionResult Edit(string id, [Bind("Id,Name,Description,CreationDate,DeadLine,Status,ProjectId")] CustomTaskDto dto)
         {
             if (id != dto.Id)
             {
@@ -90,7 +92,7 @@ namespace TaskManagment.Controllers
             if (ModelState.IsValid)
             {
                 _service.Update(dto);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { ProjectId = dto.ProjectId });
             }
 
             return View(dto);
@@ -114,10 +116,10 @@ namespace TaskManagment.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(string id)
+        public IActionResult DeleteConfirmed(string projectId, string id)
         {
             _service.Remove(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { ProjectId = projectId });
         }
     }
 }

@@ -137,6 +137,11 @@ namespace Services.Implementation
                 result += e => e.Name == filter.Name;
             }
 
+            if (!String.IsNullOrEmpty(filter?.ProjectId))
+            {
+                result += e => e.ProjectId == filter.ProjectId;
+            }
+
             return result;
         }
     }

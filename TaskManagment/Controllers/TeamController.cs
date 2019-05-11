@@ -26,12 +26,13 @@ namespace TaskManagment.Controllers
 
         public IActionResult Index(TeamFilter filter)
         {
+            ViewBag.ProjectId = filter?.ProjectId;
             var list = _service.Get(filter).ToList();
             return View(list);
         }
 
         public IActionResult Details(string id)
-        {
+        { 
             if (id == null)
             {
                 return NotFound();
@@ -46,19 +47,20 @@ namespace TaskManagment.Controllers
             return View(dto);
         }
 
-        public IActionResult Create()
+        public IActionResult Create(string projectId)
         {
+            ViewBag.ProjectId = projectId;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Name")] TeamDto dto)
+        public IActionResult Create([Bind("Id,Name,ProjectId")] TeamDto dto)
         {
             if (ModelState.IsValid)
             {
                 _service.Add(dto);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { ProjectId = dto.ProjectId });
             }
             return View(dto);
         }
@@ -91,7 +93,7 @@ namespace TaskManagment.Controllers
             if (ModelState.IsValid)
             {
                 _service.Update(dto);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { ProjectId = dto.ProjectId });
             }
 
             return View(dto);
@@ -115,10 +117,10 @@ namespace TaskManagment.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(string id)
+        public IActionResult DeleteConfirmed(string projectId, string id)
         {
             _service.Remove(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { ProjectId = projectId });
         }
     }
 }

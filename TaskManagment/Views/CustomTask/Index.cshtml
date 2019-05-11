@@ -5,10 +5,10 @@
     }
 
     <div class="container">
-        <h2>Index</h2>
+        <h2>Tasks</h2>
 
         <p>
-            <a asp-action="Create">Create New</a>
+            <a asp-action="Create" asp-route-ProjectId="@ViewBag.ProjectId">Create New</a>
         </p>
         <table class="table">
             <thead>
