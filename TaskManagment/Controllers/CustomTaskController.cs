@@ -17,10 +17,12 @@ namespace TaskManagment.Controllers
     public class CustomTaskController : Controller
     {
         private readonly ICustomTaskService _service;
+        private readonly ICustomTaskStatusService _customTaskStatusService;
 
-        public CustomTaskController(ICustomTaskService service)
+        public CustomTaskController(ICustomTaskService service, ICustomTaskStatusService customTaskStatusService)
         {
             _service = service;
+            _customTaskStatusService = customTaskStatusService;
         }
 
         public IActionResult Index(CustomTaskFilter filter)
@@ -49,12 +51,14 @@ namespace TaskManagment.Controllers
         public IActionResult Create(string projectId)
         {
             ViewBag.ProjectId = projectId;
+            CustomTaskStatusFilter customTaskStatusFilter = new CustomTaskStatusFilter();
+            ViewBag.CustomTaskStatuses = new SelectList(_customTaskStatusService.Get(customTaskStatusFilter).Select(cts => cts.Name));
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Name,Description,CreationDate,DeadLine,Status,ProjectId")] CustomTaskDto dto)
+        public IActionResult Create([Bind("Id,Name,Description,CreationDate,Deadline,Status,ProjectId")] CustomTaskDto dto)
         {
             if (ModelState.IsValid)
             {
@@ -76,13 +80,16 @@ namespace TaskManagment.Controllers
             {
                 return NotFound();
             }
-            
+
+            CustomTaskStatusFilter customTaskStatusFilter = new CustomTaskStatusFilter();
+            ViewBag.CustomTaskStatuses = new SelectList(_customTaskStatusService.Get(customTaskStatusFilter).Select(cts => cts.Name));
+
             return View(dto);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, [Bind("Id,Name,Description,CreationDate,DeadLine,Status,ProjectId")] CustomTaskDto dto)
+        public IActionResult Edit(string id, [Bind("Id,Name,Description,CreationDate,Deadline,Status,ProjectId")] CustomTaskDto dto)
         {
             if (id != dto.Id)
             {

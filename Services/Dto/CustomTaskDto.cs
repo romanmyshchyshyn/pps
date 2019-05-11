@@ -17,12 +17,15 @@ namespace Services.Dto
         public string Description { get; set; }
 
         [Display(Name = "Creation Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime CreationDate { get; set; }
 
         [Display(Name = "Deadline")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Deadline { get; set; }
 
         [Display(Name = "Status")]
+        [Required]
         public string Status { get; set; }
 
         public string UserCreatorId { get; set; }       

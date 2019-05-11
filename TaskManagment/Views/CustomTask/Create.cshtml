@@ -14,6 +14,7 @@
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="ProjectId" value="@ViewBag.ProjectId" />
+                <input type="hidden" asp-for="CreationDate" value="@DateTime.Now" />
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
                     <input asp-for="Name" class="form-control" />
@@ -25,18 +26,15 @@
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CreationDate" class="control-label"></label>
-                    <input asp-for="CreationDate" class="form-control" />
-                    <span asp-validation-for="CreationDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="Deadline" class="control-label"></label>
-                    <input asp-for="Deadline" class="form-control" />
+                    <input type="date" asp-for="Deadline" asp-format="{0:yyyy-MM-dd}" class="form-control" />
                     <span asp-validation-for="Deadline" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Status" class="control-label"></label>
-                    <input asp-for="Status" class="form-control" />
+                    <select asp-for="Status" asp-items="ViewBag.CustomTaskStatuses" class="form-control">
+                        <option selected="selected" disabled="disabled">Select status</option>
+                    </select>
                     <span asp-validation-for="Status" class="text-danger"></span>
                 </div>
                 <div class="form-group">
