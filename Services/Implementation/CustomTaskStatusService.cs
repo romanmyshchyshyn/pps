@@ -12,17 +12,17 @@ using System.Text;
 
 namespace Services.Implementation
 {
-    public class TeamService : Service<Team, TeamDto, TeamFilter>, ITeamService
+    public class CustomTaskStatusService : Service<CustomTaskStatus, CustomTaskStatusDto, CustomTaskStatusFilter>, ICustomTaskStatusService
     {
-        public TeamService(IUnitOfWork unitOfWork) :
+        public CustomTaskStatusService(IUnitOfWork unitOfWork) :
             base(unitOfWork)
         {
-        }        
+        }
 
-        public override TeamDto Get(string id)
+        public override CustomTaskStatusDto Get(string name)
         {
-            Team entity = Repository
-              .Get(e => e.Id == id)
+            CustomTaskStatus entity = Repository
+              .Get(e => e.Name == name)
               .SingleOrDefault();
 
             if (entity == null)
@@ -33,20 +33,20 @@ namespace Services.Implementation
             return MapToDto(entity);
         }
 
-        public override IEnumerable<TeamDto> Get(TeamFilter filter)
+        public override IEnumerable<CustomTaskStatusDto> Get(CustomTaskStatusFilter filter)
         {
-            Func<Team, bool> predicate = GetFilter(filter);
-            List<Team> entities = Repository
+            Func<CustomTaskStatus, bool> predicate = GetFilter(filter);
+            List<CustomTaskStatus> entities = Repository
               .Get(p => predicate(p))
               .ToList();
 
             return entities.Select(e => MapToDto(e));
         }
 
-        public override void Add(TeamDto dto)
+        public override void Add(CustomTaskStatusDto dto)
         {
-            Team checkEntity = Repository
-                .Get(e => e.Id == dto.Id)
+            CustomTaskStatus checkEntity = Repository
+                .Get(e => e.Name == dto.Name)
                 .SingleOrDefault();
 
             if (checkEntity != null)
@@ -54,15 +54,15 @@ namespace Services.Implementation
                 throw new DuplicateNameException();
             }
 
-            Team entity = MapToEntity(dto);
+            CustomTaskStatus entity = MapToEntity(dto);
             Repository.Add(entity);
             _unitOfWork.SaveChanges();
         }
 
-        public override void Remove(string id)
+        public override void Remove(string name)
         {
-            Team entity = Repository
-             .Get(e => e.Id == id)
+            CustomTaskStatus entity = Repository
+             .Get(e => e.Name == name)
              .SingleOrDefault();
 
             if (entity == null)
@@ -74,11 +74,11 @@ namespace Services.Implementation
             _unitOfWork.SaveChanges();
         }
 
-        public override void Update(TeamDto dto)
+        public override void Update(CustomTaskStatusDto dto)
         {
-            Team entity = Repository
-            .Get(e => e.Id == dto.Id)
-            .SingleOrDefault();
+            CustomTaskStatus entity = Repository
+             .Get(e => e.Name == dto.Name)
+             .SingleOrDefault();
 
             if (entity == null)
             {
@@ -86,60 +86,47 @@ namespace Services.Implementation
             }
 
             entity.Name = dto.Name;
-            entity.ProjectId = dto.ProjectId;
-            entity.TeamLeadId = dto.TeamLeadId;
 
             Repository.Update(entity);
             _unitOfWork.SaveChanges();
         }
 
-        protected override TeamDto MapToDto(Team entity)
+        protected override CustomTaskStatusDto MapToDto(CustomTaskStatus entity)
         {
             if (entity == null)
             {
                 throw new ArgumentNullException();
             }
 
-            TeamDto dto = new TeamDto
+            CustomTaskStatusDto dto = new CustomTaskStatusDto
             {
-                Id = entity.Id,
-                Name = entity.Name,
-                ProjectId = entity.ProjectId,
-                TeamLeadId = entity.TeamLeadId
+                Name = entity.Name
             };
 
             return dto;
         }
 
-        protected override Team MapToEntity(TeamDto dto)
+        protected override CustomTaskStatus MapToEntity(CustomTaskStatusDto dto)
         {
             if (dto == null)
             {
                 throw new ArgumentNullException();
             }
 
-            Team entity = new Team
+            CustomTaskStatus entity = new CustomTaskStatus
             {
-                Id = dto.Id,
-                Name = dto.Name,
-                ProjectId = dto.ProjectId,
-                TeamLeadId = dto.TeamLeadId
+                Name = dto.Name
             };
 
             return entity;
         }
 
-        private Func<Team, bool> GetFilter(TeamFilter filter)
+        private Func<CustomTaskStatus, bool> GetFilter(CustomTaskStatusFilter filter)
         {
-            Func<Team, bool> result = e => true;
+            Func<CustomTaskStatus, bool> result = e => true;
             if (!String.IsNullOrEmpty(filter?.Name))
             {
                 result += e => e.Name == filter.Name;
-            }
-
-            if (!String.IsNullOrEmpty(filter?.ProjectId))
-            {
-                result += e => e.ProjectId == filter.ProjectId;
             }
 
             return result;

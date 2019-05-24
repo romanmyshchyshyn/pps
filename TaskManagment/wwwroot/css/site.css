@@ -91,6 +91,29 @@ body {
     margin: 15px;
 }
 
+.dl-horizontal dt {
+    text-align: left;
+}
+
+dd {
+    overflow-wrap: break-word;
+}
+
+td {
+    overflow-wrap: break-word;
+    max-width: 300px
+}
+
+button a {
+    color: white;
+    text-decoration: none;
+}
+
+button a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */

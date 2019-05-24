@@ -13,6 +13,7 @@ namespace DataAccess
         public DbSet<Project> Projects { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<CustomTaskStatus> CustomTaskStatuses { get; set; }
 
         public TmDbContext(DbContextOptions<TmDbContext> options)
             : base(options)
@@ -27,6 +28,12 @@ namespace DataAccess
             modelBuilder.Entity<Team>()
                 .HasOne(e => e.Teamlead).WithOne()
                 .HasForeignKey<Team>(e => e.TeamLeadId);
+
+            modelBuilder.Entity<User>()
+                .HasAlternateKey(u => u.UserName);
+
+            modelBuilder.Entity<CustomTaskStatus>()
+                .HasKey(cts => cts.Name);
         }
     }
 }

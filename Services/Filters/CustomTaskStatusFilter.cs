@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Services.Filters
 {
-    public class TeamFilter : BaseFilter
+    public class CustomTaskStatusFilter
     {
-        public string ProjectId { get; set; }
+        public string Name { get; set; }
     }
 }
