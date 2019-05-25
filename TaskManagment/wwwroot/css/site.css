@@ -34,6 +34,13 @@ button {
     background-color: #42a5f5!important;
 }
 
+a {
+    font-weight: 600 !important;
+    color: #3F4C5D!important;
+    display: inline-block;
+    outline: none;
+}
+
 .user-image {
     width: 40px;
     height: 40px;
@@ -41,7 +48,11 @@ button {
     background-size: cover;
     border-radius: 100%;
     overflow: hidden;
-    margin: 0 15px;
+    margin: 0 20px;
+}
+
+.filler {
+    flex-grow: 1;
 }
 
 .user-image a {
@@ -54,37 +65,39 @@ button {
     NAVBAR
 ******************/
 
-.collapsible {
+.signedin-user-fullname {
+    font-weight: 700;
+}
+
+.li-signedin-user-image {
+    margin-right: -200px;
+    z-index: 1;
+}
+
+#signout-btn {
+    background: inherit !important;
+    border: none !important;
+    box-shadow: none;
+    color: #3F4C5D;
+}
+
+nav .dropdown-trigger {
+    background-color: #fff;
+    color: #3F4C5D;
     border: none;
     box-shadow: none;
-    margin-left: 100px;
-    margin-top: 0;
-    margin-bottom: 0;
+    margin: -16px;
+    width: 250px;
+    text-align: end;
 }
 
-nav .collapsible-header {
-    width: 30px;
-    border: none;
-    height: 64px;
+nav .dropdown-trigger:hover {
+    background-color: none;
+}
+
+nav .dropdown-content li {
     display: flex;
     align-items: center;
-}
-
-nav .collapsible-body {
-    position: absolute;
-    right: 0px;
-    margin-top: 2px;
-    padding: 0;
-    border: none;
-}
-
-nav ul.collapsible li {
-    float: none;
-}
-
-nav .collapsible-body .collection {
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-    padding: 0 16px;
 }
 
 nav {
@@ -93,13 +106,15 @@ nav {
     height: auto !important;
 }
 
-nav .right {
+#nav-mobile {
     display: flex;
     align-items: center;
 }
 
 nav .brand-logo {
     color: #3F4C5D;
+    position: static;
+    line-height: 64px;
 }
 
 nav ul a {
@@ -108,6 +123,7 @@ nav ul a {
 
 .nav-wrapper {
     padding: 0 16px;
+    display: flex;
 }
 
 /******************

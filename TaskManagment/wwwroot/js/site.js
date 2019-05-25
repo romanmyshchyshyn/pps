@@ -1,4 +1,12 @@
 ﻿$(document).ready(function () {
     M.updateTextFields();
-    $('.collapsible').collapsible();
+
+    $(".dropdown-trigger").dropdown({
+        coverTrigger: false,
+        inDuration: 300,
+        outDuration: 225,
+        hover: true, 
+        alignment: "left",
+        constrainWidth: true
+    });
 });
