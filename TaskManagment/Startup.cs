@@ -20,6 +20,7 @@ using Services.Interfaces;
 using Services.Implementation;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using TaskManagment.NewFolder;
 
 namespace TaskManagment
 {
@@ -54,6 +55,8 @@ namespace TaskManagment
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<ITeamService, TeamService>();
+
+            services.AddScoped<IUserClaimsPrincipalFactory<User>, ApplicationClaimsIdentityFactory>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
