@@ -21,8 +21,8 @@ namespace TaskManagment.NewFolder
         {
             var principal = await base.CreateAsync(user);
             ((ClaimsIdentity)principal.Identity).AddClaims(new[] {
-              new Claim(CustomClaimTypes.FullName, user.FullName),
-              new Claim(CustomClaimTypes.ImagePath, user.Image.Path)
+                  new Claim(CustomClaimTypes.FullName, user.FullName),
+                  new Claim(CustomClaimTypes.ImagePath, user.ImagePath)
             });
 
             return principal;

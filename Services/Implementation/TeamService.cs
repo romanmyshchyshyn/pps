@@ -87,7 +87,7 @@ namespace Services.Implementation
 
             entity.Name = dto.Name;
             entity.ProjectId = dto.ProjectId;
-            entity.ImageId = dto.ImageId;
+            entity.ImagePath = dto.ImagePath;
 
             Repository.Update(entity);
             _unitOfWork.SaveChanges();
@@ -105,7 +105,7 @@ namespace Services.Implementation
                 Id = entity.Id,
                 Name = entity.Name,
                 ProjectId = entity.ProjectId,
-                ImageId = entity.ImageId
+                ImagePath = entity.ImagePath
             };
 
             return dto;
@@ -123,7 +123,7 @@ namespace Services.Implementation
                 Id = dto.Id,
                 Name = dto.Name,
                 ProjectId = dto.ProjectId,
-                ImageId = dto.ImageId
+                ImagePath = dto.ImagePath
             };
 
             return entity;

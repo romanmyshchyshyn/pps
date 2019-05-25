@@ -13,7 +13,7 @@ namespace Services.Dto
         [Display(Name = "Name")]
         public string Name { get; set; }
 
-        public string ImageId { get; set; }
+        public string ImagePath { get; set; }
 
         public string ProjectId { get; set; }
     }

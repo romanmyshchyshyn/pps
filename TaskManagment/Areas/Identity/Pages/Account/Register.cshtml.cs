@@ -84,7 +84,7 @@ namespace TaskManagment.Areas.Identity.Pages.Account
                 var user = new User { UserName = Input.Email, FullName = Input.FullName, Email = Input.Email };
 
                 string imagePath = "/UsersDocuments/" + Guid.NewGuid().ToString() + Input.Image.FileName;
-                user.Image = new Image { Path = imagePath };
+                user.ImagePath = imagePath;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

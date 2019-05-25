@@ -12,7 +12,6 @@ namespace DataAccess
         public DbSet<CustomTask> CustomTasks { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Team> Teams { get; set; }
-        public DbSet<Image> Images { get; set; }
         public DbSet<CustomTaskStatus> CustomTaskStatuses { get; set; }
         public DbSet<CustomFile> CustomFiles { get; set; }
 

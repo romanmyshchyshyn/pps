@@ -53,7 +53,6 @@ namespace TaskManagment
             services.AddScoped<ICustomTaskService, CustomTaskService>();
             services.AddScoped<ICustomTaskStatusService, CustomTaskStatusService>();
             services.AddScoped<IProjectService, ProjectService>();
-            services.AddScoped<IImageService, ImageService>();
             services.AddScoped<ITeamService, TeamService>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<User>, ApplicationClaimsIdentityFactory>();
