@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="Views\Team\" />
+    <Folder Include="wwwroot\UsersDocuments\" />
   </ItemGroup>
 
 </Project>

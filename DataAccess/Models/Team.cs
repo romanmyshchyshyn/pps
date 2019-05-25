@@ -8,13 +8,14 @@ namespace DataAccess.Models
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public Image Image { get; set; }
 
-        public string TeamLeadId { get; set; }
-        public User Teamlead { get; set; }
+        public string ImageId { get; set; }
+        public Image Image { get; set; }
 
         public string ProjectId { get; set; }
         public Project Project { get; set; }
+
+        public List<CustomTask> CustomTasks { get; set; }
 
         public List<User> Users { get; set; }
     }

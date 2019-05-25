@@ -89,10 +89,12 @@ namespace Services.Implementation
             entity.CreationDate = dto.CreationDate;
             entity.Deadline = dto.Deadline;
             entity.Description = dto.Description;
+            entity.EstimateTime = dto.EstimateTime;
             entity.Status = dto.Status;
             entity.UserAssigneeId = dto.UserAssigneeId;
             entity.UserCreatorId = dto.UserCreatorId;
             entity.ProjectId = dto.ProjectId;
+            entity.TeamId = dto.TeamId;
 
             Repository.Update(entity);
             _unitOfWork.SaveChanges();
@@ -112,10 +114,12 @@ namespace Services.Implementation
                 CreationDate = entity.CreationDate,
                 Deadline = entity.Deadline,
                 Description = entity.Description,
+                EstimateTime = entity.EstimateTime,
                 Status = entity.Status,
                 UserAssigneeId = entity.UserAssigneeId,
                 UserCreatorId = entity.UserCreatorId,
-                ProjectId = entity.ProjectId
+                ProjectId = entity.ProjectId,
+                TeamId = entity.TeamId
             };
 
             return dto;
@@ -135,10 +139,12 @@ namespace Services.Implementation
                 CreationDate = dto.CreationDate,
                 Deadline = dto.Deadline,
                 Description = dto.Description,
+                EstimateTime = dto.EstimateTime,
                 Status = dto.Status,
                 UserAssigneeId = dto.UserAssigneeId,
                 UserCreatorId = dto.UserCreatorId,
-                ProjectId = dto.ProjectId
+                ProjectId = dto.ProjectId,
+                TeamId = dto.TeamId
             };
 
             return entity;

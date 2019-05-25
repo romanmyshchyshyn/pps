@@ -14,6 +14,7 @@ namespace DataAccess
         public DbSet<Team> Teams { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<CustomTaskStatus> CustomTaskStatuses { get; set; }
+        public DbSet<CustomFile> CustomFiles { get; set; }
 
         public TmDbContext(DbContextOptions<TmDbContext> options)
             : base(options)
@@ -24,13 +25,6 @@ namespace DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Team>()
-                .HasOne(e => e.Teamlead).WithOne()
-                .HasForeignKey<Team>(e => e.TeamLeadId);
-
-            modelBuilder.Entity<User>()
-                .HasAlternateKey(u => u.UserName);
 
             modelBuilder.Entity<CustomTaskStatus>()
                 .HasKey(cts => cts.Name);

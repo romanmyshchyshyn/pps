@@ -24,8 +24,11 @@ namespace Services.Dto
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Deadline { get; set; }
 
-        [Display(Name = "Status")]
+        [Display(Name = "Estimate Time")]
+        public int? EstimateTime { get; set; }
+
         [Required]
+        [Display(Name = "Status")]
         public string Status { get; set; }
 
         public string UserCreatorId { get; set; }       
@@ -33,5 +36,7 @@ namespace Services.Dto
         public string UserAssigneeId { get; set; }
 
         public string ProjectId { get; set; }
+
+        public string TeamId { get; set; }
     }
 }

@@ -11,10 +11,6 @@ namespace DataAccess.Models
 
         public List<Team> Teams { get; set; }
 
-        public string OwnerId { get; set; }
-        public User Owner { get; set; }
-
-        public string ProjectManagerId { get; set; }
-        public User ProjectManager { get; set; }
+        public List<User> Users { get; set; }
     }
 }

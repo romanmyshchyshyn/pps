@@ -1,54 +1,61 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Sign up";
+    ViewData["Subtitle"] = "Please, sign up bellow. These settings can be changed later.";
 }
-
-<div class="container body-content">
-    <h2>@ViewData["Title"]</h2>
-
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                <h4>Create a new account.</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.UserName"></label>
-                    <input asp-for="Input.UserName" class="form-control" />
-                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Name"></label>
-                    <input asp-for="Input.Name" class="form-control" />
-                    <span asp-validation-for="Input.Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Surname"></label>
-                    <input asp-for="Input.Surname" class="form-control" />
-                    <span asp-validation-for="Input.Surname" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.ConfirmPassword"></label>
-                    <input asp-for="Input.ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                </div>
-                <button type="submit" class="btn btn-default">Register</button>
-            </form>
+<div class="row form-layout-row">
+    <div class="form-layout-flex-wrapper col s6">
+        <div class="form-layout-form">
+        <h2 class="form-layout-form-title">@ViewData["Title"]</h2>
+        <div class="row">
+            <div>
+                <form asp-route-returnUrl="@Model.ReturnUrl" autocomplete="off" method="post" enctype="multipart/form-data">
+                    <h4 class="form-layout-form-subtitle">@ViewData["Subtitle"]</h4>
+                    <div class="input-field">
+                        <label asp-for="Input.FullName"></label>
+                        <input asp-for="Input.FullName" />
+                        <span asp-validation-for="Input.FullName"></span>
+                    </div>
+                    <div class="input-field">
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" />
+                        <span asp-validation-for="Input.Email"></span>
+                    </div>
+                    <div class="file-field input-field">
+                        <div class="btn blue lighten-1">
+                            <i class="fa fa-folder-open"></i>
+                            <input type="file" asp-for="Input.Image" required />
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path" type="text"
+                                   placeholder="Image" />
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password"></span>
+                    </div>
+                    <div class="input-field">
+                        <label asp-for="Input.ConfirmPassword"></label>
+                        <input asp-for="Input.ConfirmPassword" />
+                        <span asp-validation-for="Input.ConfirmPassword"></span>
+                    </div>
+                    <button type="submit" class="btn waves-effect form-layout-form-submit-button">Sign up</button>
+                </form>
+            </div>
         </div>
+        </div>
+    </div>
+    <div class="form-layout-images-wrapper col s6">
+        <img class="form-layout-image-man" src="~/images/man.svg" alt="man" />
+        <img class="form-layout-image-cloud-small" src="~/images/cloud.svg" alt="cloud" />
+        <img class="form-layout-image-cloud-big" src="~/images/cloud.svg" alt="cloud" />
     </div>
 </div>
 
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-    }
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

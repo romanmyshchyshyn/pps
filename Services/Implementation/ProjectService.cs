@@ -86,8 +86,6 @@ namespace Services.Implementation
             }
 
             entity.Name = dto.Name;
-            entity.OwnerId = dto.OwnerId;
-            entity.ProjectManagerId = dto.ProjectManagerId;
 
             Repository.Update(entity);
             _unitOfWork.SaveChanges();
@@ -104,8 +102,6 @@ namespace Services.Implementation
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                OwnerId = entity.OwnerId,
-                ProjectManagerId = entity.ProjectManagerId
             };
 
             return dto;
@@ -121,9 +117,7 @@ namespace Services.Implementation
             Project entity = new Project
             {
                 Id = dto.Id,
-                Name = dto.Name,
-                OwnerId = dto.OwnerId,
-                ProjectManagerId = dto.ProjectManagerId
+                Name = dto.Name
             };
 
             return entity;
@@ -135,14 +129,6 @@ namespace Services.Implementation
             if (!String.IsNullOrEmpty(filter?.Name))
             {
                 result += e => e.Name == filter.Name;
-            }
-            else if (!String.IsNullOrEmpty(filter?.OwnerId))
-            {
-                result += e => e.OwnerId == filter.OwnerId;
-            }
-            else if(!String.IsNullOrEmpty(filter?.ProjectManagerId))
-            {
-                result += e => e.ProjectManagerId == filter.ProjectManagerId;
             }
 
             return result;

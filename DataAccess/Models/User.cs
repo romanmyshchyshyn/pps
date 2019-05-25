@@ -7,9 +7,13 @@ namespace DataAccess.Models
 {
     public class User : IdentityUser
     {
-        public string Name { get; set; }
-        public string Surname { get; set; }
+        public string FullName { get; set; }
+
+        public string ImageId { get; set; }
         public Image Image { get; set; }
+
+        public string ProjectId { get; set; }
+        public Project Project { get; set; }
 
         public string TeamId { get; set; }
         public Team Team { get; set; }

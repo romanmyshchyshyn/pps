@@ -1,123 +1,162 @@
-﻿@font-face {
-    font-family: 'Playball';
-    src: url('fonts/Playball.ttf') format('truetype');
+﻿.content {
+    flex-grow: 1;
+    display: flex;
 }
 
-.home-title {
-    color: white;
-    font-size: 150px;
-    position: absolute;
-    height: 100vh;
+.container {
+    max-width: initial!important;
     width: 100vw;
-    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    margin-top: -100px;
-    font-family: 'Playball', cursive;
-    
+    padding: 0 16px;
+    margin: 0!important;
 }
 
-.parallax-home-container {
-    left: 0;
-    width: 100%;
-    flex-grow: 1;
-    overflow: hidden;
-    background: url(../images/background.jpg);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 100px;
+.row {
+    margin-bottom: 0;
 }
 
-.mixBlnd {
-    background-blend-mode: screen;
+.col .row {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
 }
 
-.navbar-brand {
-    display: flex;
-    align-items: center;
-}
 
-.logo {
-    font-size: 30px;
-}
-
-footer {
-    background-color: #222222;
-    color: #9d9d9d;
-    height: 50px;
-    display: flex;
-    align-items: center;
-}
-
-.content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
-for details on configuring this project to bundle and minify static web assets. */
 body {
-    padding-top: 50px;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    color: #3F4C5D;
+    overflow-x: hidden;
 }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+button {
+    font-weight: 600!important;
+    background-color: #42a5f5!important;
 }
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
+/******************
+    NAVBAR
+******************/
+
+nav {
+    background-color: #fff;
+    color: #3F4C5D;
+    height: auto!important;
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
+nav .brand-logo {
+    color: #3F4C5D;
 }
 
-/* QR code generator */
-#qrCode {
-    margin: 15px;
+nav ul a {
+    color: #3F4C5D;
 }
 
-.dl-horizontal dt {
-    text-align: left;
+.nav-wrapper {
+    padding: 0 16px;
 }
 
-dd {
-    overflow-wrap: break-word;
+/******************
+    FOOTER
+******************/
+
+footer {
+    min-height: 100px;
 }
 
-td {
-    overflow-wrap: break-word;
-    max-width: 300px
+footer nav {
+    position: relative;
+    bottom: -4px;
 }
 
-button a {
-    color: white;
-    text-decoration: none;
+footer .nav-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 }
 
-button a:hover {
-    color: white;
-    text-decoration: underline;
+
+/******************
+    FORM-LAYOUT
+******************/
+
+.form-layout-row {
+    display: flex;
+    flex-grow: 1;
 }
 
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
-    }
+.form-layout-flex-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+
+.form-layout-form {
+    width: 400px;
+}
+
+.form-layout-form-title {
+    font-size: 28px;
+}
+
+.form-layout-form-subtitle {
+    color: #8E9EB3;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
+    margin-bottom: 40px;
+}
+
+.form-layout-form-submit-button {
+    width: 50%;
+    padding: 0;
+    margin-top: 40px;
+    background-color: #42a5f5;
+}
+
+.input-field input {
+    border-bottom: 1px solid #42a5f5 !important;
+    box-shadow: 0 1px 0 0 #42a5f5 !important;
+}
+
+.input-field input.input-validation-error {
+    border-bottom: 1px solid #d50000 !important;
+    box-shadow: 0 1px 0 0 #d50000 !important;
+}
+
+.field-validation-error {
+    color: #d50000 !important;
+}
+
+.form-layout-images-wrapper {
+    background: #E7F4FC;
+    align-self: stretch;
+    margin-top: 2px;
+    position: relative;
+    right: -16px!important;
+}
+
+.form-layout-images-wrapper img {
+    position: absolute;
+}
+
+.form-layout-image-man {
+    width: 300px;
+    bottom: 80px;
+    left: 50px;
+}
+
+.form-layout-image-cloud-small {
+    width: 200px;
+    top: 110px;
+    left: 60px;
+}
+
+.form-layout-image-cloud-big {
+    width: 420px;
+    top: 150px;
+    right: 130px;
+}
+
+

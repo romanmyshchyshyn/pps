@@ -11,6 +11,7 @@ namespace DataAccess.Models
         public string Description { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime Deadline { get; set; }
+        public int? EstimateTime { get; set; }
         public string Status { get; set; }
 
         public string UserCreatorId { get; set; }
@@ -22,6 +23,9 @@ namespace DataAccess.Models
         public string ProjectId { get; set; }
         public Project Project { get; set; }
 
-        public List<Image> Images { get; set; }
+        public string TeamId { get; set; }
+        public Team Team { get; set; }
+
+        public List<CustomFile> CustomFiles { get; set; }
     }
 }
