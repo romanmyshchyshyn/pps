@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="Views\CustomTask\" />
+    <Folder Include="Views\Project\" />
     <Folder Include="Views\Team\" />
     <Folder Include="wwwroot\UsersDocuments\" />
   </ItemGroup>

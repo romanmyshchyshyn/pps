@@ -1,4 +1,6 @@
-﻿@{
+﻿@model TaskManagment.ViewModels.Project.ProjectViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -51,12 +53,17 @@ else
     <div class="modal-content">
         <h4>New project</h4>
     </div>
-    <form action="/" method="post">
-
-    </form>
-    <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-    </div>
+    <form autocomplete="off" asp-action="Create" asp-controller="Project" method="post">
+        <div class="input-field">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" required />
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div class="modal-footer">
+            <button href="#!" class="create-project-modal-cancel-btn modal-close waves-effect waves-red btn-flat">Cancel</button>
+            <button href="#!" class="create-project-modal-create-btn modal-close waves-effect waves-green btn-flat">Create</button>
+        </div>
+    </form>    
 </div>
 
 @section Scripts {

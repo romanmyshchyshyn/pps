@@ -534,4 +534,16 @@ footer .nav-wrapper {
     width: 500px;
 }
 
+#create-project-modal form {
+    padding: 0 24px;
+}
+
+.create-project-modal-cancel-btn {
+    background: #fff !important;
+}
+
+.create-project-modal-create-btn {
+    color: #fff;
+}
+
 

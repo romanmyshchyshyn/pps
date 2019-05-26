@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using TaskManagment.ViewModels;
 using Services.Exceptions;
+using TaskManagment.ViewModels.Project;
 
 namespace TaskManagment.Controllers
 {
@@ -28,6 +29,26 @@ namespace TaskManagment.Controllers
         {
             _service = service;
             _userManager = userManager;
-        }        
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create([Bind("Id,Name")] ProjectViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                ProjectDto dto = new ProjectDto { Name = vm.Name };
+                _service.Add(dto);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
     }
 }
