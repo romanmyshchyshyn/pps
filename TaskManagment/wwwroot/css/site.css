@@ -361,6 +361,15 @@ footer .nav-wrapper {
     HOME INDEX PROJECT
 */
 
+.border {
+    border: 2px solid #E7F4FC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+    height: 95%;
+}
+
 .home-index-card-project-wrapper {
     width: 100%;
     display: flex;
