@@ -9,4 +9,6 @@
         alignment: "left",
         constrainWidth: true
     });
+
+    $('.modal').modal();
 });

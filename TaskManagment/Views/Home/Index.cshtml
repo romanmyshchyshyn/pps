@@ -4,19 +4,19 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-<div class="home-index-card-project-wrapper">
-    <div class="card">
-        <div class="home-index-card-project-content">
+    <div class="home-index-card-project-wrapper">
+        <div class="card">
+            <div class="home-index-card-project-content">
                 <div class="home-index-card-project-add-wrapper">
-                    <button class="btn-pill">
+                    <button data-target="create-project-modal" class="btn-pill modal-trigger">
                         <span>Add</span>
-                    </button>                    
+                    </button>
                 </div>
-            <h1 class="home-index-card-project-content-title">New Project</h1>
-            <h2 class="home-index-card-project-content-subtitle">Create a project, where you can add and keep track of tasks</h2>
-        </div>        
+                <h1 class="home-index-card-project-content-title">New Project</h1>
+                <h2 class="home-index-card-project-content-subtitle">Create a project, where you can add and keep track of tasks</h2>
+            </div>
+        </div>
     </div>
-</div>
 }
 else
 {
@@ -43,4 +43,20 @@ else
 
         <img class="home-index-img" src="~/images/home-index-img.png" alt="Alternate Text" />
     </div>
+}
+
+<div id="create-project-modal" class="modal">
+    <div class="modal-content">
+        <h4>New project</h4>
+    </div>
+    <form action="/" method="post">
+
+    </form>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

@@ -71,7 +71,7 @@ a {
 }
 
 .li-signedin-user-image {
-    margin-right: -200px;
+    margin-right: -195px;
     z-index: 1;
 }
 
@@ -99,6 +99,14 @@ nav .dropdown-trigger:hover {
 nav .dropdown-content li {
     display: flex;
     align-items: center;
+}
+
+#logoutForm {
+    width: 100%;
+}
+
+#logoutForm button {
+    width: 100%;
 }
 
 nav {
@@ -511,6 +519,10 @@ footer .nav-wrapper {
     font-size: 12px;
     margin-left: 10px;
     margin-top: 0;
+}
+
+#create-project-modal {
+    width: 500px;
 }
 
 
