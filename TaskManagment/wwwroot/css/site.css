@@ -330,6 +330,7 @@ footer .nav-wrapper {
 .home-index-links-wrapper a {
     margin: 0 16px;
     width: 270px;
+    margin-top: 22px;
 }
 
 .home-index-signup-link {
