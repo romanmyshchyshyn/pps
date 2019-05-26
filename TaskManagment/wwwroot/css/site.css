@@ -8,6 +8,7 @@
     width: 100vw;
     padding: 0 16px;
     margin: 0!important;
+    position: relative;
 }
 
 .row {
@@ -104,6 +105,7 @@ nav {
     background-color: #fff;
     color: #3F4C5D;
     height: auto !important;
+    z-index: 999;
 }
 
 #nav-mobile {
@@ -227,6 +229,124 @@ footer .nav-wrapper {
     width: 420px;
     top: 150px;
     right: 130px;
+}
+
+
+/********************
+    HOME INDEX
+********************/
+
+.Iam {
+    padding: 2em 5em;
+    padding-bottom: 0;
+}
+
+    .Iam p {
+        float: left;
+        margin-right: 0.3em;
+        font-size: 66px;
+        height: 98px;
+        margin-bottom: 0px;
+    }
+
+    .Iam b {
+        float: left;
+        overflow: hidden;
+        position: relative;
+        height: 98px;
+        top: 66px;
+        font-size: 66px;     
+        font-weight: 400;
+    }
+
+    .Iam .innerIam {
+        display: inline-block;
+        color: #42a5f5;
+        position: relative;
+        white-space: nowrap;
+        top: 0;
+        left: 0;
+        animation: move 5s ease-in;
+        animation-iteration-count: infinite;
+        animation-delay: 0.5s;
+    }
+
+@keyframes move {
+    0% {
+        top: 0px;
+    }
+
+    15% {
+        top: 0px;
+    }
+
+    30% {
+        top: -98px;
+    }
+
+    45% {
+        top: -98px;
+    }
+
+    60% {
+        top: -196px;
+    }
+
+    75% {
+        top: -196px;
+    }
+}
+
+.home-index-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #E7F4FC;
+}
+
+.home-index-text-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1;
+    margin-top: -300px;
+}
+
+.subtitle {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 22px;
+    max-width: 1000px;
+}
+
+.home-index-buttons-wrapper {
+    margin-top: 22px;
+}
+
+.home-index-links-wrapper a {
+    margin: 0 16px;
+    width: 270px;
+}
+
+.home-index-signup-link {
+    background: #42a5f5 !important;
+    color: #fff!important;
+}
+
+.home-index-signin-link {
+    background: #fff !important;
+    color: #3F4C5D;
+}
+
+.home-index-img {
+    width: 500px;
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
 }
 
 
