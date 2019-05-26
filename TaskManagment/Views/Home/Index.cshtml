@@ -2,26 +2,45 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="home-index-wrapper">
-    <div class="home-index-text-wrapper">
-        <div class="Iam">
-            <p>Time to create</p>
-            <b>
-                <div class="innerIam">
-                    Simply.<br />
-                    Efficiently.<br />
-                    Together.<br />
+@if (User.Identity.IsAuthenticated)
+{
+<div class="home-index-card-project-wrapper">
+    <div class="card">
+        <div class="home-index-card-project-content">
+                <div class="home-index-card-project-add-wrapper">
+                    <button class="btn-pill">
+                        <span>Add</span>
+                    </button>                    
                 </div>
-            </b>
-        </div>
-        <h2 class="subtitle">
-            The first project management platform for software development that brings everyone on every team together to build better products.
-        </h2>
-        <div class="home-index-links-wrapper">
-            <a asp-area="Identity" asp-page="/Account/Register" class="btn home-index-signup-link">Sign up</a>
-            <a asp-area="Identity" asp-page="/Account/Login" class="btn home-index-signin-link">Sign in</a>
-        </div>
+            <h1 class="home-index-card-project-content-title">New Project</h1>
+            <h2 class="home-index-card-project-content-subtitle">Create a project, where you can add and keep track of tasks</h2>
+        </div>        
     </div>
-
-    <img class="home-index-img" src="~/images/home-index-img.png" alt="Alternate Text" />
 </div>
+}
+else
+{
+    <div class="home-index-wrapper">
+        <div class="home-index-text-wrapper">
+            <div class="Iam">
+                <p>Time to create</p>
+                <b>
+                    <div class="innerIam">
+                        Simply.<br />
+                        Efficiently.<br />
+                        Together.<br />
+                    </div>
+                </b>
+            </div>
+            <h2 class="home-index-subtitle">
+                The first project management platform for software development that brings everyone on every team together to build better products.
+            </h2>
+            <div class="home-index-links-wrapper">
+                <a asp-area="Identity" asp-page="/Account/Register" class="btn home-index-signup-link">Sign up</a>
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn home-index-signin-link">Sign in</a>
+            </div>
+        </div>
+
+        <img class="home-index-img" src="~/images/home-index-img.png" alt="Alternate Text" />
+    </div>
+}
