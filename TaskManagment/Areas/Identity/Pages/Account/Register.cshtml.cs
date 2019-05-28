@@ -83,7 +83,7 @@ namespace TaskManagment.Areas.Identity.Pages.Account
             {
                 var user = new User { UserName = Input.Email, FullName = Input.FullName, Email = Input.Email };
 
-                string imagePath = "/UsersDocuments/" + Guid.NewGuid().ToString() + Input.Image.FileName;
+                string imagePath = Input.Image.FileName;
                 user.ImagePath = imagePath;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -92,7 +92,7 @@ namespace TaskManagment.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     // Save user image on server
-                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + imagePath, FileMode.Create))
+                    using (var fileStream = new FileStream(imagePath, FileMode.Create))
                     {
                         await Input.Image.CopyToAsync(fileStream);
                     }
