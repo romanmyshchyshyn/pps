@@ -6,21 +6,22 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <div class="home-index-card-project-wrapper">
-        <div class="border">
-            <div class="card">
-                <div class="home-index-card-project-content">
-                    <div class="home-index-card-project-add-wrapper">
-                        <button data-target="create-project-modal" class="btn-pill modal-trigger">
-                            <span>Add</span>
-                        </button>
-                    </div>
-                    <h1 class="home-index-card-project-content-title">New Project</h1>
-                    <h2 class="home-index-card-project-content-subtitle">Create a project, where you can add and keep track of tasks</h2>
+<div class="home-index-card-project-wrapper">
+    <img class="home-index-project-create-img form-layout-image-man" src="~/images/man.svg" alt="man" />
+    <div class="border">
+        <div class="card">
+            <div class="home-index-card-project-content">
+                <div class="home-index-card-project-add-wrapper">
+                    <button data-target="create-project-modal" class="btn-pill modal-trigger">
+                        <span>Add</span>
+                    </button>
                 </div>
+                <h1 class="home-index-card-project-content-title">New Project</h1>
+                <h2 class="home-index-card-project-content-subtitle">Create a project, where you can add and keep track of tasks</h2>
             </div>
         </div>
     </div>
+</div>
 }
 else
 {

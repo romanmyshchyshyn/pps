@@ -16,6 +16,7 @@ using System.Security.Claims;
 using TaskManagment.ViewModels;
 using Services.Exceptions;
 using TaskManagment.ViewModels.Project;
+using TaskManagment.Roles;
 
 namespace TaskManagment.Controllers
 {
@@ -32,9 +33,24 @@ namespace TaskManagment.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string id)
         {
-            return View();
+            ProjectDto dto = _service.Get(id);
+            ProjectViewModel vm = new ProjectViewModel { Id = dto.Id, Name = dto.Name };
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            User user = await _userManager.FindByIdAsync(userId);
+
+            //try
+            //{
+            //    await _userManager.AddToRoleAsync(user, Role.Owner);
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    throw;
+            //}
+
+            return View(vm);
         }
 
         [HttpPost]
@@ -43,12 +59,13 @@ namespace TaskManagment.Controllers
         {
             if (ModelState.IsValid)
             {
-                ProjectDto dto = new ProjectDto { Name = vm.Name };
+                var projectId = Guid.NewGuid().ToString();
+                ProjectDto dto = new ProjectDto { Id = projectId, Name = vm.Name };
                 _service.Add(dto);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = projectId });
             }
 
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return RedirectToAction("Index", "Project", new { area = "" });
         }
     }
 }
