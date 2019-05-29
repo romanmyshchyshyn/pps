@@ -67,5 +67,12 @@ namespace TaskManagment.Controllers
 
             return RedirectToAction("Index", "Project", new { area = "" });
         }
+
+        //public IActionResult inviteUser([Bind("Id,Name")] ProjectViewModel vm)
+        //{
+        //    //todo
+        //}
+
+
     }
 }

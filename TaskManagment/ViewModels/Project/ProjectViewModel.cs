@@ -13,5 +13,11 @@ namespace TaskManagment.ViewModels.Project
         [Required]
         [Display(Name = "Name")]
         public string Name { get; set; }
+
+       
+        [Display(Name = "UserToInvite")]
+        public string UserToInvite { get; set; }
+
+
     }
 }

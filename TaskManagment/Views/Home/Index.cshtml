@@ -6,22 +6,30 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-<div class="home-index-card-project-wrapper">
-    <img class="home-index-project-create-img form-layout-image-man" src="~/images/man.svg" alt="man" />
-    <div class="border">
-        <div class="card">
-            <div class="home-index-card-project-content">
-                <div class="home-index-card-project-add-wrapper">
-                    <button data-target="create-project-modal" class="btn-pill modal-trigger">
-                        <span>Add</span>
-                    </button>
+    if (User.IsInRole("Owner"))
+    {
+        <h1>User.Name</h1>
+    }
+    else
+    {
+        <div class="home-index-card-project-wrapper">
+            <img class="home-index-project-create-img form-layout-image-man" src="~/images/man.svg" alt="man" />
+            <div class="border">
+                <div class="card">
+                    <div class="home-index-card-project-content">
+                        <div class="home-index-card-project-add-wrapper">
+                            <button data-target="create-project-modal" class="btn-pill modal-trigger">
+                                <span>Add</span>
+                            </button>
+                        </div>
+                        <h1 class="home-index-card-project-content-title">New Project</h1>
+                        <h2 class="home-index-card-project-content-subtitle">Create a project, where you can add and keep track of tasks</h2>
+                    </div>
                 </div>
-                <h1 class="home-index-card-project-content-title">New Project</h1>
-                <h2 class="home-index-card-project-content-subtitle">Create a project, where you can add and keep track of tasks</h2>
             </div>
         </div>
-    </div>
-</div>
+    }
+
 }
 else
 {
@@ -64,7 +72,24 @@ else
             <button href="#!" class="create-project-modal-cancel-btn modal-close waves-effect waves-red btn-flat">Cancel</button>
             <button href="#!" class="create-project-modal-create-btn modal-close waves-effect waves-green btn-flat">Create</button>
         </div>
-    </form>    
+    </form>
+</div>
+
+<div id="invite-user-modal" class="modal">
+    <div class="modal-content">
+        <h4>Invite user</h4>
+    </div>
+    <form autocomplete="off" asp-action="inviteUser" asp-controller="Project" method="post">
+        <div class="input-field">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" required />
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div class="modal-footer">
+            <button href="#!" class="create-project-modal-cancel-btn modal-close waves-effect waves-red btn-flat">Cancel</button>
+            <button href="#!" class="create-project-modal-create-btn modal-close waves-effect waves-green btn-flat">Create</button>
+        </div>
+    </form>
 </div>
 
 @section Scripts {

@@ -1,3 +1,20 @@
 ﻿@model TaskManagment.ViewModels.Project.ProjectViewModel
 
 <h1>@Model.Name</h1>
+<p>
+    Name: <span style="color:#ff0000">NAMEHERE</span>
+    <br />
+    Email: <span style="color:#00ff00">Emailhere</span>
+    <br />
+</p>
+<p>
+    Name: <span style="color:#ff0000">VOLODIMIR</span>
+    <br />
+    Surname: <span style="color:#00ff00">ZELENSKIY</span>
+    <br />
+</p>
+<div class="input-field">
+    <label asp-for="Name"></label>
+    <input asp-for="Name" />
+    <span asp-validation-for="Name"></span>
+</div>
