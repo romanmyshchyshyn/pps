@@ -17,7 +17,6 @@ namespace TaskManagment
     {
         public static async Task Main(string[] args)
         {
-            // CreateWebHostBuilder(args).Build().Run();
             var host = BuildWebHost(args);
 
             using (var scope = host.Services.CreateScope())
@@ -38,10 +37,6 @@ namespace TaskManagment
 
             host.Run();
         }
-
-        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-        //    WebHost.CreateDefaultBuilder(args)
-        //        .UseStartup<Startup>();
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args).UseStartup<Startup>().Build();

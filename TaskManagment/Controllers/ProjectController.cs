@@ -37,31 +37,26 @@ namespace TaskManagment.Controllers
         {
             ProjectDto dto = _service.Get(id);
             ProjectViewModel vm = new ProjectViewModel { Id = dto.Id, Name = dto.Name };
-            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            User user = await _userManager.FindByIdAsync(userId);
-
-            //try
-            //{
-            //    await _userManager.AddToRoleAsync(user, Role.Owner);
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    throw;
-            //}
 
             return View(vm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Name")] ProjectViewModel vm)
+        public async Task<IActionResult> Create([Bind("Id,Name")] ProjectViewModel vm)
         {
             if (ModelState.IsValid)
             {
                 var projectId = Guid.NewGuid().ToString();
                 ProjectDto dto = new ProjectDto { Id = projectId, Name = vm.Name };
                 _service.Add(dto);
+
+                string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                User user = await _userManager.FindByIdAsync(userId);
+                user.ProjectId = projectId;
+                await _userManager.AddToRoleAsync(user, Role.Owner);
+                await _userManager.UpdateAsync(user);
+
                 return RedirectToAction(nameof(Index), new { id = projectId });
             }
 

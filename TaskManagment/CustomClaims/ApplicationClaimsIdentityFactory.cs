@@ -20,10 +20,13 @@ namespace TaskManagment.NewFolder
         public async override Task<ClaimsPrincipal> CreateAsync(User user)
         {
             var principal = await base.CreateAsync(user);
-            ((ClaimsIdentity)principal.Identity).AddClaims(new[] {
-                  new Claim(CustomClaimTypes.FullName, user.FullName),
-                  new Claim(CustomClaimTypes.ImagePath, user.ImagePath)
-            });
+            List<Claim> claims = new List<Claim>
+            {
+                 new Claim(CustomClaimTypes.FullName, user.FullName),
+                 new Claim(CustomClaimTypes.ImagePath, user.ImagePath)                 
+            };
+            
+            ((ClaimsIdentity)principal.Identity).AddClaims(claims);
 
             return principal;
         }

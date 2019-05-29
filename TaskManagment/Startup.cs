@@ -47,6 +47,7 @@ namespace TaskManagment
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<User>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<TmDbContext>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -78,7 +79,7 @@ namespace TaskManagment
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.ConfigureCustomExceptionMiddleware();
+            // app.ConfigureCustomExceptionMiddleware();
 
             app.UseAuthentication();
 
