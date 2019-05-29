@@ -30,6 +30,8 @@
     <div class="modal-content">
         <h4>Manage project members</h4>
         <div class="invite-member-wrapper">
+            <input type="hidden" id="invite-projectId" value="@Model.Id" />
+            <input type="hidden" id="invite-projectName" value="@Model.Name" />
             <div class="input-field">
                 <label for="invite-member-input">Invite member</label>
                 <input type="text" id="invite-member-input" />

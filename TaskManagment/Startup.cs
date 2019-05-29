@@ -21,6 +21,7 @@ using Services.Implementation;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using TaskManagment.NewFolder;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace TaskManagment
 {
@@ -46,8 +47,11 @@ namespace TaskManagment
             services.AddDbContext<TmDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<User>()
+            services.AddDefaultIdentity<User>(options => {
+                options.Tokens.ProviderMap.Add("Default", new TokenProviderDescriptor(typeof(IUserTwoFactorTokenProvider<User>)));
+            })
                 .AddRoles<IdentityRole>()
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<TmDbContext>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -55,6 +59,23 @@ namespace TaskManagment
             services.AddScoped<ICustomTaskStatusService, CustomTaskStatusService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ITeamService, TeamService>();
+
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+            services.AddTransient<IEmailSender, EmailSender>(i =>
+                new EmailSender(
+                    Configuration["EmailSender:Host"],
+                    Configuration.GetValue<int>("EmailSender:Port"),
+                    Configuration.GetValue<bool>("EmailSender:EnableSSL"),
+                    Configuration["EmailSender:UserName"],
+                    Configuration["EmailSender:Password"]
+                )
+            );
 
             services.AddScoped<IUserClaimsPrincipalFactory<User>, ApplicationClaimsIdentityFactory>();
 
@@ -75,10 +96,12 @@ namespace TaskManagment
                 app.UseHsts();
             }
 
+            app.UseCors("MyPolicy");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            
             // app.ConfigureCustomExceptionMiddleware();
 
             app.UseAuthentication();

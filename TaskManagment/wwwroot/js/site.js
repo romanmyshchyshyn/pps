@@ -1,4 +1,7 @@
 ﻿$(document).ready(function () {
+    const url = "http://localhost:50704/";
+    const inviteMemberUrl = url + "Project/InviteMember";
+
     M.updateTextFields();
 
     $(".dropdown-trigger").dropdown({
@@ -17,8 +20,11 @@
 
     $('.invite-member-btn').click(function () {
         const email = $('#invite-member-input').val();
-        $.ajax({
-
-        });
+        const projectId = $('#invite-projectId').val();
+        const projectName = $('#invite-projectName').val();
+        $.post(inviteMemberUrl, { email: email, projectId: projectId, projectName: projectName })
+            .done(data => console.log(data),
+                error => console.log(error));
+        $('#invite-member-input').val("");
     });
 });

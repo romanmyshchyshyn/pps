@@ -17,6 +17,7 @@ using TaskManagment.ViewModels;
 using Services.Exceptions;
 using TaskManagment.ViewModels.Project;
 using TaskManagment.Roles;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace TaskManagment.Controllers
 {
@@ -26,10 +27,15 @@ namespace TaskManagment.Controllers
         private readonly IProjectService _service;
         private readonly UserManager<User> _userManager;
 
-        public ProjectController(IProjectService service, UserManager<User> userManager)
+        private readonly IEmailSender _emailSender;
+        private readonly string inviteTokenProvider = "Default";
+        private readonly string invitePurpose = "invitePurpose";
+
+        public ProjectController(IProjectService service, UserManager<User> userManager, IEmailSender emailSender)
         {
             _service = service;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -62,5 +68,70 @@ namespace TaskManagment.Controllers
 
             return RedirectToAction("Index", "Project", new { area = "" });
         }
+
+
+        [HttpPost]
+        // [Authorize(Roles = Role.Owner)]
+        public async Task<IActionResult> InviteMember(string email, string projectId, string projectName)
+        {
+            User user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            string token = null;
+            try
+            {
+                token = await _userManager.GenerateUserTokenAsync(user, inviteTokenProvider, invitePurpose);                
+            }
+            catch (Exception ex)
+            {
+                                
+            }
+
+            var callbackUrl = Url.Action(
+                       "AcceptInviteMember",
+                       "Project",
+                       new { userId = user.Id, token = token, projectId = projectId },
+                       protocol: HttpContext.Request.Scheme);
+
+            await _emailSender.SendEmailAsync(email, "Invitation",  $"Accept invitation for project '{projectName}': <a href='{callbackUrl}'>link</a>");
+            return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AcceptInviteMember(string userId, string token, string projectId)
+        {
+            if (userId == null || token == null || projectId == null)
+            {
+                return BadRequest();
+            }
+
+            User user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            bool isValidToken = await _userManager.VerifyUserTokenAsync(user, inviteTokenProvider, invitePurpose, token);
+            if (!isValidToken)
+            {
+                return BadRequest();
+            }
+
+            ProjectDto projectDto = _service.Get(projectId);
+            if (projectDto == null)
+            {
+                return BadRequest();
+            }
+
+            user.ProjectId = projectId;
+            await _userManager.UpdateAsync(user);
+
+            return RedirectToAction(nameof(Index), new { id = projectId });
+        }
+
+
     }
 }
