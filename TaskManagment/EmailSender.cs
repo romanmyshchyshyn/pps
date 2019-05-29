@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using MimeKit;
+using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace TaskManagment
 {
@@ -29,18 +29,27 @@ namespace TaskManagment
         }
 
         // Use our configuration to send the email by using SmtpClient
-        public Task SendEmailAsync(string email, string subject, string htmlMessage)
+        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            var client = new SmtpClient(host, port)
+            var emailMessage = new MimeMessage();
+
+            emailMessage.From.Add(new MailboxAddress("Task Manager TM", ""));
+            emailMessage.To.Add(new MailboxAddress("", email));
+            emailMessage.Subject = subject;
+            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
-                Credentials = new NetworkCredential(userName, password),
-                EnableSsl = enableSSL,
-                UseDefaultCredentials = false,
-                DeliveryMethod = SmtpDeliveryMethod.Network
+                Text = htmlMessage
             };
-            return client.SendMailAsync(
-                new MailMessage(userName, email, subject, htmlMessage) { IsBodyHtml = true }
-            );
+
+
+            using (var client = new SmtpClient())
+            {
+                await client.ConnectAsync(host, port, enableSSL);
+                await client.AuthenticateAsync(userName, password);
+                await client.SendAsync(emailMessage);
+
+                await client.DisconnectAsync(true);
+            }
         }
     }
 }
