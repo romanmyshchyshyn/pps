@@ -611,3 +611,18 @@ footer .nav-wrapper {
     width: 700px;
 }
 
+.invite-member-wrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.invite-member-wrapper .input-field {
+    flex-grow: 1;
+    margin-right: 32px;
+}
+
+.invite-member-btn {
+    color: #fff;
+}
+

@@ -14,4 +14,11 @@
     $('.hamburger').click(function () {
         $(this).toggleClass('is-active');
     });
+
+    $('.invite-member-btn').click(function () {
+        const email = $('#invite-member-input').val();
+        $.ajax({
+
+        });
+    });
 });
