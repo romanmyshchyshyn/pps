@@ -1,19 +1,22 @@
 ﻿@model TaskManagment.ViewModels.Project.ProjectViewModel
 @using TaskManagment.CustomClaims;
 
-@{ 
+@{
     ViewData["Title"] = "Project";
 }
 
 <nav class="nav-project">
     <div class="project-nav-wrapper nav-wrapper">
         <div class="project-add-users-wrapper">
-            <div class="user-image" style="background-image:url('@(User.FindFirst(c => c.Type == CustomClaimTypes.ImagePath).Value)')">
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"></a>
-            </div>
-            <div class="user-image project-add-people-btn modal-trigger" data-target="add-people-modal-trigger">
-                <i class="fas fa-plus"></i>
-            </div>
+            @if (Model.isCanAddMember)
+            {
+                <div class="user-image" style="background-image:url('@(User.FindFirst(c => c.Type == CustomClaimTypes.ImagePath).Value)')">
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"></a>
+                </div>
+                <div class="user-image project-add-people-btn modal-trigger" data-target="add-people-modal-trigger">
+                    <i class="fas fa-plus"></i>
+                </div>
+            }
         </div>
         <h2 class="project-title">@Model.Name</h2>
         <div class="project-info">
@@ -30,6 +33,7 @@
     <div class="modal-content">
         <h4>Manage project members</h4>
         <div class="invite-member-wrapper">
+            <span id="invite-user-error-span" class="field-validation-error"></span>            
             <input type="hidden" id="invite-projectId" value="@Model.Id" />
             <input type="hidden" id="invite-projectName" value="@Model.Name" />
             <div class="input-field">

@@ -39,10 +39,25 @@ namespace TaskManagment.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(string id)
+        public async Task<IActionResult> Index()
         {
-            ProjectDto dto = _service.Get(id);
-            ProjectViewModel vm = new ProjectViewModel { Id = dto.Id, Name = dto.Name };
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            User user = await _userManager.FindByIdAsync(userId);
+            string projectId = user.ProjectId;
+            if (projectId == null)
+            {
+                return BadRequest();
+            }
+
+            ProjectDto dto = _service.Get(projectId);
+            if (dto == null)
+            {
+                return BadRequest();
+            }
+
+            bool isOwner = await _userManager.IsInRoleAsync(user, Role.Owner);
+
+            ProjectViewModel vm = new ProjectViewModel { Id = dto.Id, Name = dto.Name, isCanAddMember = isOwner };
 
             return View(vm);
         }
@@ -63,15 +78,15 @@ namespace TaskManagment.Controllers
                 await _userManager.AddToRoleAsync(user, Role.Owner);
                 await _userManager.UpdateAsync(user);
 
-                return RedirectToAction(nameof(Index), new { id = projectId });
+                return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction("Index", "Project", new { area = "" });
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
 
 
         [HttpPost]
-        // [Authorize(Roles = Role.Owner)]
+        [Produces("application/json")]
         public async Task<IActionResult> InviteMember(string email, string projectId, string projectName)
         {
             User user = await _userManager.FindByEmailAsync(email);
@@ -80,15 +95,15 @@ namespace TaskManagment.Controllers
                 return NotFound();
             }
 
-            string token = null;
-            try
+            string authUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            User authUser = await _userManager.FindByIdAsync(authUserId);
+            bool isOwner = await _userManager.IsInRoleAsync(authUser, Role.Owner);
+            if (!isOwner)
             {
-                token = await _userManager.GenerateUserTokenAsync(user, inviteTokenProvider, invitePurpose);                
+                return Forbid();
             }
-            catch (Exception ex)
-            {
-                                
-            }
+
+            string token = await _userManager.GenerateUserTokenAsync(user, inviteTokenProvider, invitePurpose);
 
             var callbackUrl = Url.Action(
                        "AcceptInviteMember",
@@ -129,7 +144,7 @@ namespace TaskManagment.Controllers
             user.ProjectId = projectId;
             await _userManager.UpdateAsync(user);
 
-            return RedirectToAction(nameof(Index), new { id = projectId });
+            return RedirectToAction(nameof(Index));
         }
 
 

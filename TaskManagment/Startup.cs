@@ -49,6 +49,12 @@ namespace TaskManagment
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<User>(options => {
                 options.Tokens.ProviderMap.Add("Default", new TokenProviderDescriptor(typeof(IUserTwoFactorTokenProvider<User>)));
+
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
             })
                 .AddRoles<IdentityRole>()
                 .AddDefaultTokenProviders()

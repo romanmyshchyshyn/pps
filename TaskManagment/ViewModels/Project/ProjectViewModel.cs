@@ -13,5 +13,7 @@ namespace TaskManagment.ViewModels.Project
         [Required]
         [Display(Name = "Name")]
         public string Name { get; set; }
+
+        public bool isCanAddMember { get; set; }
     }
 }

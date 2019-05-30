@@ -212,6 +212,10 @@ footer .nav-wrapper {
     color: #d50000 !important;
 }
 
+.field-validation-success {
+    color: #56DD82 !important;
+}
+
 .form-layout-images-wrapper {
     background: #E7F4FC;
     align-self: stretch;
@@ -615,6 +619,12 @@ footer .nav-wrapper {
     display: flex;
     align-items: center;
     margin-top: 20px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+#invite-user-error-span {
+    width: 100%;
 }
 
 .invite-member-wrapper .input-field {
