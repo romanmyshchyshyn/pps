@@ -8,11 +8,11 @@
 <nav class="nav-project">
     <div class="project-nav-wrapper nav-wrapper">
         <div class="project-add-users-wrapper">
+            <div class="user-image" style="background-image:url('@(User.FindFirst(c => c.Type == CustomClaimTypes.ImagePath).Value)')">
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"></a>
+            </div>
             @if (Model.isCanAddMember)
             {
-                <div class="user-image" style="background-image:url('@(User.FindFirst(c => c.Type == CustomClaimTypes.ImagePath).Value)')">
-                    <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"></a>
-                </div>
                 <div class="user-image project-add-people-btn modal-trigger" data-target="add-people-modal-trigger">
                     <i class="fas fa-plus"></i>
                 </div>

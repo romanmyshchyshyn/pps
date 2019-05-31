@@ -125,25 +125,36 @@ namespace TaskManagment.Controllers
         {
             if (userId == null || token == null || projectId == null)
             {
-                return BadRequest();
+                ViewData["ErrorSubtitle"] = "This link is not valid anymore.";
+                return View("Error");
             }
 
             User user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return BadRequest();
+                return View("Error");
             }
 
-            bool isValidToken = await _userManager.VerifyUserTokenAsync(user, inviteTokenProvider, invitePurpose, token);
+            string authUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            User authUser = await _userManager.FindByIdAsync(authUserId);
+            bool isValidToken = await _userManager.VerifyUserTokenAsync(authUser, inviteTokenProvider, invitePurpose, token);
             if (!isValidToken)
             {
-                return BadRequest();
+                ViewData["ErrorSubtitle"] = "Check if you signed in with correct account for this link.";
+                return View("Error");
             }
 
             ProjectDto projectDto = _service.Get(projectId);
             if (projectDto == null)
             {
-                return BadRequest();
+                ViewData["ErrorSubtitle"] = "This link is not valid anymore.";
+                return View("Error");
+            }
+
+            if (user.ProjectId != null)
+            {
+                ViewData["ErrorSubtitle"] = "User already has a project.";
+                return View("Error");
             }
 
             user.ProjectId = projectId;

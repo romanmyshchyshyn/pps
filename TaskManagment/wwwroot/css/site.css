@@ -213,7 +213,7 @@ footer .nav-wrapper {
 }
 
 .field-validation-success {
-    color: #56DD82 !important;
+    color: #2a9f50 !important;
 }
 
 .form-layout-images-wrapper {
@@ -644,5 +644,19 @@ footer .nav-wrapper {
 .input-field .helper-text {
     font-size: 14px;
     color: #d50000;
+}
+
+
+
+/*
+    Error
+*/
+
+.error-title {
+    font-size: 30px;
+}
+
+.error-subtitle {
+    font-size: 24px;
 }
 

@@ -107,7 +107,8 @@ namespace TaskManagment
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            
+            app.UseStatusCodePagesWithRedirects("home/error/{0}");
+
             // app.ConfigureCustomExceptionMiddleware();
 
             app.UseAuthentication();
