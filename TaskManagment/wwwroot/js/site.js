@@ -19,6 +19,11 @@
     });
 
     $('.invite-member-btn').click(function () {
+        const inviteMemberInput = $('#invite-member-input');
+        if (inviteMemberInput.hasClass('invalid') || inviteMemberInput.val() === "") {
+            return;
+        }
+
         const email = $('#invite-member-input').val();
         const projectId = $('#invite-projectId').val();
         const projectName = $('#invite-projectName').val();
@@ -30,12 +35,15 @@
                 span.removeClass();
                 span.addClass('field-validation-success');
             }, "json")
-            .fail(() => {                
-                span.text("There is no user with such email.");
+            .fail((error) => {
+                console.log(error);
+
+                span.text(error.responseText.substring(1, error.responseText.length - 1));
                 span.removeClass();
                 span.addClass('field-validation-error');
             }, "json");
-        $('#invite-member-input').val("");
+
+        inviteMemberInput.val("");
     });
 
     $('#invite-member-input').keypress(function () {

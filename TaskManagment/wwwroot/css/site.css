@@ -199,8 +199,8 @@ footer .nav-wrapper {
 }
 
 .input-field input {
-    border-bottom: 1px solid #42a5f5 !important;
-    box-shadow: 0 1px 0 0 #42a5f5 !important;
+    border-bottom: 1px solid #42a5f5!important;
+    box-shadow: 0 1px 0 0 #42a5f5!important;
 }
 
 .input-field input.input-validation-error {
@@ -634,5 +634,15 @@ footer .nav-wrapper {
 
 .invite-member-btn {
     color: #fff;
+}
+
+.input-field input.invalid {
+    border-bottom: 1px solid #d50000 !important;
+    box-shadow: 0 1px 0 0 #d50000 !important;
+}
+
+.input-field .helper-text {
+    font-size: 14px;
+    color: #d50000;
 }
 
