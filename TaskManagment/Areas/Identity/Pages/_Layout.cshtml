@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Task Managment</title>
+    <link rel="icon" href="~/images/favicon.ico">
+    <link href="~/css/hamburger.css" rel="stylesheet" />
+    <link href="~/lib/fontawesome/css/all.css" rel="stylesheet" />
+    <link href="~/css/materialize.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a asp-action="Index" asp-controller="Home" class="brand-logo">Me&Task</a>
+            <div class="filler"></div>
+            <ul id="nav-mobile" class="hide-on-med-and-down">
+                <partial name="_LoginPartial" />
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container content">
+        @RenderBody()
+    </div>
+    <footer>
+        <nav>
+            <div class="nav-wrapper">
+                <p>Copyright  <i class="far fa-copyright"></i> 2019 - Coon&3Cookies <i class="fas fa-cookie-bite"></i></p>
+            </div>
+        </nav>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/fontawesome/js/all.js"></script>
+    <script src="~/lib/materialize/materialize.js"></script>
+    <script src="~/js/site.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
