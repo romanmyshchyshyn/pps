@@ -11,6 +11,28 @@
     position: relative;
 }
 
+.low-container {
+    max-width: initial !important;
+    width: 100%;
+    padding: 0 350px;
+    margin: 0 !important;
+    position: relative;
+}
+
+.settings-container {
+    border: 5px solid #3F4C5D;
+    border-radius: 10px;
+    max-width: initial !important;
+    width: 100%;
+    margin: 0 !important;
+    position: relative;
+}
+
+.settings-btn-div {
+    display: table;
+    margin: 0 auto;
+}
+
 .row {
     margin-bottom: 0;
 }
@@ -20,6 +42,12 @@
     margin-right: 0;
     margin-bottom: 0;
 }
+
+.my-col .my-row {
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+}
+
 
 
 body {
