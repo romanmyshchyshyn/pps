@@ -92,7 +92,12 @@ namespace TaskManagment.Controllers
             User user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return NotFound();
+                return NotFound("There is no user with such email.");
+            }
+
+            if (user.ProjectId != null)
+            {
+                return BadRequest("User already has a project.");
             }
 
             string authUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;

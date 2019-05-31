@@ -38,7 +38,8 @@
             <input type="hidden" id="invite-projectName" value="@Model.Name" />
             <div class="input-field">
                 <label for="invite-member-input">Invite member</label>
-                <input type="text" id="invite-member-input" />
+                <input class="validate" type="email" id="invite-member-input" />
+                <span class="helper-text" data-error="The Email field is not a valid e-mail address."></span>
             </div>
             <button class="invite-member-btn waves-effect waves-green btn-flat">Send</button>
         </div>
