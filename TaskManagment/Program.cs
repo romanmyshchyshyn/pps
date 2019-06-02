@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAccess;
 using DataAccess.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +28,9 @@ namespace TaskManagment
                     var userManager = services.GetRequiredService<UserManager<User>>();
                     var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     await Roles.RoleInitializer.InitializeAsync(userManager, rolesManager);
+
+                    var db = services.GetRequiredService<TmDbContext>();
+                    CustomTaskStatusInitializer.Initialize(db);
                 }
                 catch (Exception ex)
                 {
