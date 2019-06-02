@@ -18,6 +18,9 @@ using Services.Exceptions;
 using TaskManagment.ViewModels.Project;
 using TaskManagment.Roles;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Services.Implementation;
+using TaskManagment.ViewModels.CustomTaskStatus;
+using TaskManagment.ViewModels.CustomTask;
 
 namespace TaskManagment.Controllers
 {
@@ -26,16 +29,24 @@ namespace TaskManagment.Controllers
     {
         private readonly IProjectService _service;
         private readonly UserManager<User> _userManager;
+        private readonly ICustomTaskStatusService _customTaskStatusService;
+        private readonly ICustomTaskService _customTaskService;
 
         private readonly IEmailSender _emailSender;
         private readonly string inviteTokenProvider = "Default";
         private readonly string invitePurpose = "invitePurpose";
 
-        public ProjectController(IProjectService service, UserManager<User> userManager, IEmailSender emailSender)
+        public ProjectController(IProjectService service,
+            UserManager<User> userManager, 
+            IEmailSender emailSender, 
+            ICustomTaskStatusService customTaskStatusService,
+            ICustomTaskService customTaskService)
         {
             _service = service;
             _userManager = userManager;
             _emailSender = emailSender;
+            _customTaskStatusService = customTaskStatusService;
+            _customTaskService = customTaskService;
         }
 
         [HttpGet]
@@ -57,7 +68,21 @@ namespace TaskManagment.Controllers
 
             bool isOwner = await _userManager.IsInRoleAsync(user, Role.Owner);
 
-            ProjectViewModel vm = new ProjectViewModel { Id = dto.Id, Name = dto.Name, isCanAddMember = isOwner };
+            CustomTaskStatusFilter customTaskStatusFilter = new CustomTaskStatusFilter();
+            List<CustomTaskStatusDto> customTaskStatusDtoList = _customTaskStatusService.Get(customTaskStatusFilter).ToList();
+            List<CustomTaskStatusViewModel> customTaskStatusViewModelList = customTaskStatusDtoList
+                .Select(ctsDto => new CustomTaskStatusViewModel { Name = ctsDto.Name, Index = ctsDto.Index })
+                .OrderBy(ctsVm => ctsVm.Index)
+                .ToList();
+
+            CustomTaskFilter customTaskFilter = new CustomTaskFilter { ProjectId = projectId };
+            List<CustomTaskDto> customTaskDtoList = _customTaskService.Get(customTaskFilter).ToList();
+            List<CustomTaskViewModel> customTaskViewModelList = customTaskDtoList.Select(ctDto => 
+                new CustomTaskViewModel { Id = ctDto.Id, Name = ctDto.Name, UserAssigneeImagePath = ctDto.UserAssignee.ImagePath, Status = ctDto.Status }).ToList();
+
+
+           ProjectViewModel vm = 
+                new ProjectViewModel { Id = dto.Id, Name = dto.Name, isCanAddMember = isOwner, CustomTaskStatuses = customTaskStatusViewModelList, CustomTasks = customTaskViewModelList };
 
             return View(vm);
         }

@@ -7,5 +7,6 @@ namespace DataAccess.Models
     public class CustomTaskStatus
     {
         public string Name { get; set; }
+        public int Index { get; set; }
     }
 }

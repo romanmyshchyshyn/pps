@@ -8,5 +8,6 @@ namespace Services.Interfaces
 {
     public interface ICustomTaskService : IService<CustomTaskDto, CustomTaskFilter>
     {
+        void UpdateStatus(string id, string status);
     }
 }

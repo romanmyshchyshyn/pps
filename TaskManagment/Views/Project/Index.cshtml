@@ -5,29 +5,77 @@
     ViewData["Title"] = "Project";
 }
 
-<nav class="nav-project">
-    <div class="project-nav-wrapper nav-wrapper">
-        <div class="project-add-users-wrapper">
-            <div class="user-image" style="background-image:url('@(User.FindFirst(c => c.Type == CustomClaimTypes.ImagePath).Value)')">
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"></a>
-            </div>
-            @if (Model.isCanAddMember)
-            {
-                <div class="user-image project-add-people-btn modal-trigger" data-target="add-people-modal-trigger">
-                    <i class="fas fa-plus"></i>
+<div>
+    <nav class="nav-project">
+        <div class="project-nav-wrapper nav-wrapper">
+            <div class="project-add-users-wrapper">
+                <div class="user-image" style="background-image:url('@(User.FindFirst(c => c.Type == CustomClaimTypes.ImagePath).Value)')">
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"></a>
                 </div>
-            }
+                @if (Model.isCanAddMember)
+                {
+                    <div class="user-image project-add-people-btn modal-trigger" data-target="add-people-modal-trigger">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                }
+            </div>
+            <h2 class="project-title">@Model.Name</h2>
+            <div class="project-info">
+                <button class="project-nav-hamburger hamburger hamburger--elastic" type="button">
+                    <span class="hamburger-box">
+                        <span class="hamburger-inner"></span>
+                    </span>
+                </button>
+            </div>
         </div>
-        <h2 class="project-title">@Model.Name</h2>
-        <div class="project-info">
-            <button class="project-nav-hamburger hamburger hamburger--elastic" type="button">
-                <span class="hamburger-box">
-                    <span class="hamburger-inner"></span>
-                </span>
-            </button>
-        </div>
+    </nav>
+
+    <div class="project-tasks-tables-wrapper">
+
+        @foreach (var ctsVm in Model.CustomTaskStatuses)
+        {
+            <div class="project-tasks-table">
+                <div class="project-tasks-table-header project-tasks-tables-wrapper-handle">
+                    <span class="project-tasks-table-header-text project-tasks-table-header-text-status">
+                        @ctsVm.Name
+                    </span>
+                    <span class="project-tasks-table-header-text">
+                        <button class="btn waves-effect project-tasks-table-header-add-btn">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </span>
+                </div>
+                <div class="project-tasks-table-add-task">
+                    <div class="input-field">
+                        <label for=@("project-tasks-table-add-task-input" + ctsVm.Name)>Add a task</label>
+                        <input class="validate project-tasks-table-add-task-input" type="text" id=@("project-tasks-table-add-task-input" + ctsVm.Name) />
+                    </div>
+                    <div class="project-tasks-table-add-task-buttons-wrapper">
+                        <button class="btn waves-effect project-tasks-table-add-task-cancel-btn">Cancel</button>
+                        <button class="btn waves-effect project-tasks-table-add-task-save-btn">Save</button>
+                    </div>
+                </div>
+                <div class="project-tasks-table-content">
+                    @foreach (var ctVm in Model.CustomTasks)
+                    {
+                        if (ctVm.Status == ctsVm.Name)
+                        {
+                            <div class="project-tasks-table-item" taskId="@ctVm.Id">
+                                <div class="user-image project-tasks-table-item-user-image" style="background-image:url('@ctVm.UserAssigneeImagePath')">
+
+                                </div>
+                                <h4 class="project-tasks-table-item-title">
+                                    @ctVm.Name
+                                </h4>
+                            </div>
+                        }
+                    }                   
+                </div>
+            </div>
+        }
+
     </div>
-</nav>
+</div>
 
 <div id="add-people-modal-trigger" class="modal">
     <div class="modal-content">

@@ -30,7 +30,7 @@ namespace TaskManagment.Controllers
                 var projectId = user.ProjectId;
                 if (projectId != null)
                 {
-                    return RedirectToAction("Index", "Project", new { id = projectId });
+                    return RedirectToAction("Index", "Project");
                 }
             }
 

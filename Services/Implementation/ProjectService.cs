@@ -1,5 +1,6 @@
 ﻿using DataAccess.Interfaces;
 using DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 using Services.Dto;
 using Services.Exceptions;
 using Services.Filters;

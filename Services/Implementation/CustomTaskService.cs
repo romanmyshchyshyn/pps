@@ -1,5 +1,6 @@
 ﻿using DataAccess.Interfaces;
 using DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 using Services.Dto;
 using Services.Exceptions;
 using Services.Filters;
@@ -38,6 +39,7 @@ namespace Services.Implementation
             Func<CustomTask, bool> predicate = GetFilter(filter);
             List<CustomTask> entities = Repository
               .Get(p => predicate(p))
+              .Include(e => e.UserAssignee)
               .ToList();
 
             return entities.Select(e => MapToDto(e));
@@ -100,6 +102,23 @@ namespace Services.Implementation
             _unitOfWork.SaveChanges();
         }
 
+        public void UpdateStatus(string id, string status)
+        {
+            CustomTask entity = Repository
+             .Get(e => e.Id == id)
+             .SingleOrDefault();
+
+            if (entity == null)
+            {
+                throw new ObjectNotFoundException();
+            }
+
+            entity.Status = status;
+
+            Repository.Update(entity);
+            _unitOfWork.SaveChanges();
+        }
+
         protected override CustomTaskDto MapToDto(CustomTask entity)
         {
             if (entity == null)
@@ -121,6 +140,17 @@ namespace Services.Implementation
                 ProjectId = entity.ProjectId,
                 TeamId = entity.TeamId
             };
+
+            if (entity.UserAssignee != null)
+            {
+                dto.UserAssignee = new User
+                {
+                    Id = entity.UserAssignee.Id,
+                    FullName = entity.UserAssignee.FullName,
+                    Email = entity.UserAssignee.Email,
+                    ImagePath = entity.UserAssignee.ImagePath
+                };
+            }
 
             return dto;
         }

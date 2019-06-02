@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Services.Dto
+namespace TaskManagment.ViewModels.CustomTaskStatus
 {
-    public class CustomTaskStatusDto
+    public class CustomTaskStatusViewModel
     {
         public string Name { get; set; }
         public int Index { get; set; }

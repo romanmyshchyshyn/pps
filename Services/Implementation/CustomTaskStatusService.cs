@@ -86,6 +86,7 @@ namespace Services.Implementation
             }
 
             entity.Name = dto.Name;
+            entity.Index = dto.Index;
 
             Repository.Update(entity);
             _unitOfWork.SaveChanges();
@@ -100,8 +101,9 @@ namespace Services.Implementation
 
             CustomTaskStatusDto dto = new CustomTaskStatusDto
             {
-                Name = entity.Name
-            };
+                Name = entity.Name,
+                Index = entity.Index
+        };
 
             return dto;
         }
@@ -115,7 +117,8 @@ namespace Services.Implementation
 
             CustomTaskStatus entity = new CustomTaskStatus
             {
-                Name = dto.Name
+                Name = dto.Name,
+                Index = dto.Index
             };
 
             return entity;

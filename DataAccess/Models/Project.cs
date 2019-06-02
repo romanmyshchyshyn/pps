@@ -12,5 +12,7 @@ namespace DataAccess.Models
         public List<Team> Teams { get; set; }
 
         public List<User> Users { get; set; }
+
+        public List<CustomTask> CustomTasks { get; set; }
     }
 }
