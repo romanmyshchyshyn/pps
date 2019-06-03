@@ -1,4 +1,5 @@
-﻿using DataAccess.Interfaces;
+﻿using AutoMapper;
+using DataAccess.Interfaces;
 using DataAccess.Models;
 using Services.Dto;
 using Services.Exceptions;
@@ -85,8 +86,7 @@ namespace Services.Implementation
                 throw new ObjectNotFoundException();
             }
 
-            entity.Name = dto.Name;
-            entity.Index = dto.Index;
+            Mapper.Map<CustomTaskStatusDto, CustomTaskStatus>(dto, entity);
 
             Repository.Update(entity);
             _unitOfWork.SaveChanges();
@@ -98,14 +98,8 @@ namespace Services.Implementation
             {
                 throw new ArgumentNullException();
             }
-
-            CustomTaskStatusDto dto = new CustomTaskStatusDto
-            {
-                Name = entity.Name,
-                Index = entity.Index
-        };
-
-            return dto;
+            
+            return Mapper.Map<CustomTaskStatus, CustomTaskStatusDto>(entity);
         }
 
         protected override CustomTaskStatus MapToEntity(CustomTaskStatusDto dto)
@@ -115,13 +109,7 @@ namespace Services.Implementation
                 throw new ArgumentNullException();
             }
 
-            CustomTaskStatus entity = new CustomTaskStatus
-            {
-                Name = dto.Name,
-                Index = dto.Index
-            };
-
-            return entity;
+            return Mapper.Map<CustomTaskStatusDto, CustomTaskStatus>(dto);
         }
 
         private Func<CustomTaskStatus, bool> GetFilter(CustomTaskStatusFilter filter)

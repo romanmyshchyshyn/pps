@@ -25,10 +25,9 @@ using TaskManagment.ViewModels.CustomTask;
 namespace TaskManagment.Controllers
 {
     [Authorize]
-    public class ProjectController : Controller
+    public class ProjectController : BaseController
     {
-        private readonly IProjectService _service;
-        private readonly UserManager<User> _userManager;
+        private readonly IProjectService _service;        
         private readonly ICustomTaskStatusService _customTaskStatusService;
         private readonly ICustomTaskService _customTaskService;
 
@@ -40,10 +39,9 @@ namespace TaskManagment.Controllers
             UserManager<User> userManager, 
             IEmailSender emailSender, 
             ICustomTaskStatusService customTaskStatusService,
-            ICustomTaskService customTaskService)
+            ICustomTaskService customTaskService) : base(userManager)
         {
-            _service = service;
-            _userManager = userManager;
+            _service = service;            
             _emailSender = emailSender;
             _customTaskStatusService = customTaskStatusService;
             _customTaskService = customTaskService;
@@ -52,8 +50,8 @@ namespace TaskManagment.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            User user = await _userManager.FindByIdAsync(userId);
+            User user = await GetAuthUserAsync();
+
             string projectId = user.ProjectId;
             if (projectId == null)
             {
@@ -66,6 +64,9 @@ namespace TaskManagment.Controllers
                 return BadRequest();
             }
 
+            List<CustomTaskFragmentViewModel> customTaskFragmentViewModelList = dto.CustomTasks.Select(ctDto =>
+                new CustomTaskFragmentViewModel { Id = ctDto.Id, Name = ctDto.Name, Status = ctDto.Status, UserAssigneeImagePath = ctDto.UserAssignee.ImagePath }).ToList();
+
             bool isOwner = await _userManager.IsInRoleAsync(user, Role.Owner);
 
             CustomTaskStatusFilter customTaskStatusFilter = new CustomTaskStatusFilter();
@@ -75,14 +76,8 @@ namespace TaskManagment.Controllers
                 .OrderBy(ctsVm => ctsVm.Index)
                 .ToList();
 
-            CustomTaskFilter customTaskFilter = new CustomTaskFilter { ProjectId = projectId };
-            List<CustomTaskDto> customTaskDtoList = _customTaskService.Get(customTaskFilter).ToList();
-            List<CustomTaskViewModel> customTaskViewModelList = customTaskDtoList.Select(ctDto => 
-                new CustomTaskViewModel { Id = ctDto.Id, Name = ctDto.Name, UserAssigneeImagePath = ctDto.UserAssignee.ImagePath, Status = ctDto.Status }).ToList();
-
-
            ProjectViewModel vm = 
-                new ProjectViewModel { Id = dto.Id, Name = dto.Name, isCanAddMember = isOwner, CustomTaskStatuses = customTaskStatusViewModelList, CustomTasks = customTaskViewModelList };
+                new ProjectViewModel { Id = dto.Id, Name = dto.Name, isCanAddMember = isOwner, CustomTaskStatuses = customTaskStatusViewModelList, CustomTasks = customTaskFragmentViewModelList };
 
             return View(vm);
         }
@@ -97,8 +92,7 @@ namespace TaskManagment.Controllers
                 ProjectDto dto = new ProjectDto { Id = projectId, Name = vm.Name };
                 _service.Add(dto);
 
-                string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                User user = await _userManager.FindByIdAsync(userId);
+                User user = await GetAuthUserAsync();
                 user.ProjectId = projectId;
                 await _userManager.AddToRoleAsync(user, Role.Owner);
                 await _userManager.UpdateAsync(user);
@@ -125,8 +119,7 @@ namespace TaskManagment.Controllers
                 return BadRequest("User already has a project.");
             }
 
-            string authUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            User authUser = await _userManager.FindByIdAsync(authUserId);
+            User authUser = await GetAuthUserAsync();
             bool isOwner = await _userManager.IsInRoleAsync(authUser, Role.Owner);
             if (!isOwner)
             {
@@ -150,7 +143,7 @@ namespace TaskManagment.Controllers
         {
             if (userId == null || token == null || projectId == null)
             {
-                ViewData["ErrorSubtitle"] = "This link is not valid anymore.";
+                ViewData["ErrorSubtitle"] = "This link is not valid.";
                 return View("Error");
             }
 
@@ -160,12 +153,17 @@ namespace TaskManagment.Controllers
                 return View("Error");
             }
 
-            string authUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            User authUser = await _userManager.FindByIdAsync(authUserId);
-            bool isValidToken = await _userManager.VerifyUserTokenAsync(authUser, inviteTokenProvider, invitePurpose, token);
-            if (!isValidToken)
+            User authUser = await GetAuthUserAsync();            
+            if (authUser.Id != userId)
             {
                 ViewData["ErrorSubtitle"] = "Check if you signed in with correct account for this link.";
+                return View("Error");
+            }
+
+            bool isTokenValid = await _userManager.VerifyUserTokenAsync(authUser, inviteTokenProvider, invitePurpose, token);
+            if (!isTokenValid)
+            {
+                ViewData["ErrorSubtitle"] = "This link is not valid anymore.";
                 return View("Error");
             }
 
@@ -187,7 +185,5 @@ namespace TaskManagment.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-
     }
 }

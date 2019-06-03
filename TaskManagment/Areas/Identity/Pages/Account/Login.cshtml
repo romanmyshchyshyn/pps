@@ -12,6 +12,7 @@
                 <div>
                     <form asp-route-returnUrl="@Model.ReturnUrl" autocomplete="off" method="post" enctype="multipart/form-data">
                         <h4 class="form-layout-form-subtitle">@ViewData["Subtitle"]</h4>
+                        <div asp-validation-summary="ModelOnly" class="sum-error field-validation-error"></div>
                         <div class="input-field">
                             <label asp-for="Input.Email"></label>
                             <input asp-for="Input.Email" />
@@ -21,7 +22,7 @@
                             <label asp-for="Input.Password"></label>
                             <input asp-for="Input.Password" />
                             <span asp-validation-for="Input.Password"></span>
-                        </div>                        
+                        </div>
                         <button type="submit" class="btn waves-effect form-layout-form-submit-button">Sign in</button>
                     </form>
                 </div>

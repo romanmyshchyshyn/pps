@@ -12,6 +12,7 @@
             <div>
                 <form asp-route-returnUrl="@Model.ReturnUrl" autocomplete="off" method="post" enctype="multipart/form-data">
                     <h4 class="form-layout-form-subtitle">@ViewData["Subtitle"]</h4>
+                    <div asp-validation-summary="ModelOnly" class="sum-error field-validation-error"></div>
                     <div class="input-field">
                         <label asp-for="Input.FullName"></label>
                         <input asp-for="Input.FullName" />

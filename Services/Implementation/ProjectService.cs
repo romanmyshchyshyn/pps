@@ -1,4 +1,5 @@
-﻿using DataAccess.Interfaces;
+﻿using AutoMapper;
+using DataAccess.Interfaces;
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Services.Dto;
@@ -39,6 +40,8 @@ namespace Services.Implementation
             Func<Project, bool> predicate = GetFilter(filter);
             List<Project> entities = Repository
               .Get(p => predicate(p))
+              .Include(e => e.CustomTasks)
+              .ThenInclude<Project, CustomTask, User>(ct => ct.UserAssignee)
               .ToList();
 
             return entities.Select(e => MapToDto(e));
@@ -86,7 +89,7 @@ namespace Services.Implementation
                 throw new ObjectNotFoundException();
             }
 
-            entity.Name = dto.Name;
+            Mapper.Map<ProjectDto, Project>(dto, entity);
 
             Repository.Update(entity);
             _unitOfWork.SaveChanges();
@@ -98,14 +101,8 @@ namespace Services.Implementation
             {
                 throw new ArgumentNullException();
             }
-
-            ProjectDto dto = new ProjectDto
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-            };
-
-            return dto;
+                       
+            return Mapper.Map<Project, ProjectDto>(entity);
         }
 
         protected override Project MapToEntity(ProjectDto dto)
@@ -115,13 +112,7 @@ namespace Services.Implementation
                 throw new ArgumentNullException();
             }
 
-            Project entity = new Project
-            {
-                Id = dto.Id,
-                Name = dto.Name
-            };
-
-            return entity;
+            return Mapper.Map<ProjectDto, Project>(dto);
         }
 
         private Func<Project, bool> GetFilter(ProjectFilter filter)

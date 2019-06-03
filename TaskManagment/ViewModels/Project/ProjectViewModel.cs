@@ -20,6 +20,6 @@ namespace TaskManagment.ViewModels.Project
 
         public List<CustomTaskStatusViewModel> CustomTaskStatuses { get; set; }
 
-        public List<CustomTaskViewModel> CustomTasks { get; set; }
+        public List<CustomTaskFragmentViewModel> CustomTasks { get; set; }
     }
 }

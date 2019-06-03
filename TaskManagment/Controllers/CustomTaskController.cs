@@ -17,17 +17,16 @@ using TaskManagment.ViewModels.CustomTask;
 namespace TaskManagment.Controllers
 {
     [Authorize]
-    public class CustomTaskController : Controller
+    public class CustomTaskController : BaseController
     {
         private readonly ICustomTaskService _service;
         private readonly ICustomTaskStatusService _customTaskStatusService;
-        private readonly UserManager<User> _userManager;
 
         public CustomTaskController(ICustomTaskService service, ICustomTaskStatusService customTaskStatusService, UserManager<User> userManager)
+             : base(userManager)
         {
             _service = service;
             _customTaskStatusService = customTaskStatusService;
-            _userManager = userManager;
         }
         
         [HttpPost]
@@ -39,12 +38,19 @@ namespace TaskManagment.Controllers
                 return BadRequest();
             }
 
-            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            User user = await _userManager.FindByIdAsync(userId);
-            CustomTaskDto dto = new CustomTaskDto { Name = cVm.Name,  UserAssigneeId = userId, UserCreatorId = userId, Status = cVm.Status, ProjectId = cVm.ProjectId };
+            User user = await GetAuthUserAsync();
+            CustomTaskDto dto = new CustomTaskDto
+            {
+                Name = cVm.Name,
+                Status = cVm.Status,
+                ProjectId = cVm.ProjectId,
+                UserAssigneeId = user.Id,
+                UserCreatorId = user.Id
+            };
+
             _service.Add(dto);
 
-            CustomTaskViewModel vm = new CustomTaskViewModel
+            CustomTaskFragmentViewModel vm = new CustomTaskFragmentViewModel
             {
                 Id = dto.Id,
                 Name = dto.Name,
@@ -66,6 +72,6 @@ namespace TaskManagment.Controllers
             ((ICustomTaskService)_service).UpdateStatus(id, status);
 
             return Ok();
-        }
+        }        
     }
 }

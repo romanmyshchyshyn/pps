@@ -8,37 +8,26 @@ namespace Services.Dto
 {
     public class CustomTaskDto
     {
-        [Display(Name = "Id")]
         public string Id { get; set; }
-
-        [Display(Name = "Name")]
         public string Name { get; set; }
-
-        [Display(Name = "Description")]
         public string Description { get; set; }
-
-        [Display(Name = "Creation Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime CreationDate { get; set; }
-
-        [Display(Name = "Deadline")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Deadline { get; set; }
-
-        [Display(Name = "Estimate Time")]
         public int? EstimateTime { get; set; }
-
-        [Required]
-        [Display(Name = "Status")]
         public string Status { get; set; }
 
-        public string UserCreatorId { get; set; }       
+        public string UserCreatorId { get; set; }
+        public User UserCreator { get; set; }
 
         public string UserAssigneeId { get; set; }
         public User UserAssignee { get; set; }
 
         public string ProjectId { get; set; }
+        public Project Project { get; set; }
 
         public string TeamId { get; set; }
+        public Team Team { get; set; }
+
+        public List<CustomFile> CustomFiles { get; set; }
     }
 }

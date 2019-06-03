@@ -63,10 +63,13 @@ a {
     height: 100%;
 }
 
+.sum-error {
+    margin-bottom: 30px;
+}
+
 /******************
     NAVBAR
 ******************/
-
 .signedin-user-fullname {
     font-weight: 700;
 }
@@ -189,7 +192,7 @@ footer .nav-wrapper {
     font-size: 13px;
     font-weight: 500;
     line-height: 18px;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
 }
 
 .form-layout-form-submit-button {
@@ -247,11 +250,9 @@ footer .nav-wrapper {
     right: 130px;
 }
 
-
 /********************
     HOME INDEX
 ********************/
-
 .Iam {
     padding: 2em 5em;
     padding-bottom: 0;
@@ -707,7 +708,7 @@ footer .nav-wrapper {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    padding: 2px 16px;
+    padding: 5px 16px;
 }
 
 .project-tasks-table-item-user-image {
@@ -721,6 +722,7 @@ footer .nav-wrapper {
     font-size: 13px;
     font-weight: 500;
     margin: 0;
+    margin-top: 5px;
 }
 
 .project-tasks-table-add-task {

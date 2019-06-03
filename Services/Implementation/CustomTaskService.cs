@@ -1,4 +1,5 @@
-﻿using DataAccess.Interfaces;
+﻿using AutoMapper;
+using DataAccess.Interfaces;
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Services.Dto;
@@ -87,16 +88,7 @@ namespace Services.Implementation
                 throw new ObjectNotFoundException();
             }
 
-            entity.Name = dto.Name;
-            entity.CreationDate = dto.CreationDate;
-            entity.Deadline = dto.Deadline;
-            entity.Description = dto.Description;
-            entity.EstimateTime = dto.EstimateTime;
-            entity.Status = dto.Status;
-            entity.UserAssigneeId = dto.UserAssigneeId;
-            entity.UserCreatorId = dto.UserCreatorId;
-            entity.ProjectId = dto.ProjectId;
-            entity.TeamId = dto.TeamId;
+            Mapper.Map<CustomTaskDto, CustomTask>(dto, entity);
 
             Repository.Update(entity);
             _unitOfWork.SaveChanges();
@@ -126,33 +118,7 @@ namespace Services.Implementation
                 throw new ArgumentNullException();
             }
 
-            CustomTaskDto dto = new CustomTaskDto
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                CreationDate = entity.CreationDate,
-                Deadline = entity.Deadline,
-                Description = entity.Description,
-                EstimateTime = entity.EstimateTime,
-                Status = entity.Status,
-                UserAssigneeId = entity.UserAssigneeId,
-                UserCreatorId = entity.UserCreatorId,
-                ProjectId = entity.ProjectId,
-                TeamId = entity.TeamId
-            };
-
-            if (entity.UserAssignee != null)
-            {
-                dto.UserAssignee = new User
-                {
-                    Id = entity.UserAssignee.Id,
-                    FullName = entity.UserAssignee.FullName,
-                    Email = entity.UserAssignee.Email,
-                    ImagePath = entity.UserAssignee.ImagePath
-                };
-            }
-
-            return dto;
+            return Mapper.Map<CustomTask, CustomTaskDto>(entity);
         }
 
         protected override CustomTask MapToEntity(CustomTaskDto dto)
@@ -161,23 +127,8 @@ namespace Services.Implementation
             {
                 throw new ArgumentNullException();
             }
-
-            CustomTask entity = new CustomTask
-            {
-                Id = dto.Id,
-                Name = dto.Name,
-                CreationDate = dto.CreationDate,
-                Deadline = dto.Deadline,
-                Description = dto.Description,
-                EstimateTime = dto.EstimateTime,
-                Status = dto.Status,
-                UserAssigneeId = dto.UserAssigneeId,
-                UserCreatorId = dto.UserCreatorId,
-                ProjectId = dto.ProjectId,
-                TeamId = dto.TeamId
-            };
-
-            return entity;
+            
+            return Mapper.Map<CustomTaskDto, CustomTask>(dto);
         }
 
         private Func<CustomTask, bool> GetFilter(CustomTaskFilter filter)

@@ -1,4 +1,5 @@
-﻿using DataAccess.Interfaces;
+﻿using AutoMapper;
+using DataAccess.Interfaces;
 using DataAccess.Models;
 using Services.Dto;
 using Services.Exceptions;
@@ -85,9 +86,7 @@ namespace Services.Implementation
                 throw new ObjectNotFoundException();
             }
 
-            entity.Name = dto.Name;
-            entity.ProjectId = dto.ProjectId;
-            entity.ImagePath = dto.ImagePath;
+            Mapper.Map<TeamDto, Team>(dto, entity);
 
             Repository.Update(entity);
             _unitOfWork.SaveChanges();
@@ -100,15 +99,7 @@ namespace Services.Implementation
                 throw new ArgumentNullException();
             }
 
-            TeamDto dto = new TeamDto
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                ProjectId = entity.ProjectId,
-                ImagePath = entity.ImagePath
-            };
-
-            return dto;
+            return Mapper.Map<Team, TeamDto>(entity);
         }
 
         protected override Team MapToEntity(TeamDto dto)
@@ -118,15 +109,7 @@ namespace Services.Implementation
                 throw new ArgumentNullException();
             }
 
-            Team entity = new Team
-            {
-                Id = dto.Id,
-                Name = dto.Name,
-                ProjectId = dto.ProjectId,
-                ImagePath = dto.ImagePath
-            };
-
-            return entity;
+            return Mapper.Map<TeamDto, Team>(dto);
         }
 
         private Func<Team, bool> GetFilter(TeamFilter filter)

@@ -22,6 +22,7 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using TaskManagment.NewFolder;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using AutoMapper;
 
 namespace TaskManagment
 {
@@ -37,6 +38,10 @@ namespace TaskManagment
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            Mapper.Initialize(cfg => {
+
+            });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
