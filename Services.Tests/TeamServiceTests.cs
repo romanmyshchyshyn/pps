@@ -1,4 +1,5 @@
-﻿using DataAccess.Interfaces;
+﻿using AutoMapper;
+using DataAccess.Interfaces;
 using DataAccess.Models;
 using Moq;
 using Services.Dto;
@@ -19,6 +20,14 @@ namespace Services.Tests
 
         public TeamServiceTests()
         {
+            try
+            {
+                Mapper.Initialize(opt => { });
+            }
+            catch (Exception)
+            {
+            }
+
             _teams = new List<Team>
             {
                 new Team { Id = "1", Name = "T1" },

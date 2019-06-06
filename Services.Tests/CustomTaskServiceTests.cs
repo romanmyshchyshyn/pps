@@ -1,4 +1,5 @@
-﻿using DataAccess.Interfaces;
+﻿using AutoMapper;
+using DataAccess.Interfaces;
 using DataAccess.Models;
 using Moq;
 using Services.Dto;
@@ -19,6 +20,14 @@ namespace Services.Tests
 
         public CustomTaskServiceTests()
         {
+            try
+            {
+                Mapper.Initialize(opt => { });
+            }
+            catch (Exception)
+            {
+            }
+
             _customTasks = new List<CustomTask>
             {
                 new CustomTask { Id = "1", Name = "CT1" },
