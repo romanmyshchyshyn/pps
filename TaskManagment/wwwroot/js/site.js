@@ -102,7 +102,7 @@
         $.post(addTaskUrl, { name: taskName, status: taskStatus, projectId: projectId })
             .done(task => {
                 const template = `
-                <div class="project-tasks-table-item">
+                <div class="project-tasks-table-item" taskId=${task.id}>
                     <div class="user-image project-tasks-table-item-user-image" style="background-image:url('${task.userAssigneeImagePath}')">
                        
                     </div>

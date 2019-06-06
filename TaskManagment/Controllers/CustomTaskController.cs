@@ -41,6 +41,7 @@ namespace TaskManagment.Controllers
             User user = await GetAuthUserAsync();
             CustomTaskDto dto = new CustomTaskDto
             {
+                Id = Guid.NewGuid().ToString(),
                 Name = cVm.Name,
                 Status = cVm.Status,
                 ProjectId = cVm.ProjectId,

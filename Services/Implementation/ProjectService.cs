@@ -25,6 +25,8 @@ namespace Services.Implementation
         {
             Project entity = Repository
               .Get(e => e.Id == id)
+              .Include(e => e.CustomTasks)
+              .ThenInclude<Project, CustomTask, User>(ct => ct.UserAssignee)
               .SingleOrDefault();
 
             if (entity == null)
