@@ -106,5 +106,21 @@ namespace TaskManagment.Controllers
 
             return Ok(vm);
         }
+
+        [HttpPost]
+        [Produces("application/json")]
+        public IActionResult EditDescription(string id, string description)
+        {
+            if (id == null || description == null)
+            {
+                return BadRequest();
+            }
+
+            var dto = _service.Get(id);
+            dto.Description = description;
+            _service.Update(dto);
+
+            return Ok();
+        }
     }
 }

@@ -202,9 +202,9 @@ footer .nav-wrapper {
     background-color: #42a5f5;
 }
 
-.input-field input {
-    border-bottom: 1px solid #42a5f5!important;
-    box-shadow: 0 1px 0 0 #42a5f5!important;
+.input-field input, .input-field textarea {
+    border-bottom: 1px solid #42a5f5 !important;
+    box-shadow: 0 1px 0 0 #42a5f5 !important;
 }
 
 .input-field input.input-validation-error {
@@ -769,19 +769,102 @@ footer .nav-wrapper {
 #task-edit-modal {
     max-width: 640px;
     padding: 30px 40px;
+    max-height: initial;
 }
 
 .task-edit-modal-content {
     padding: 0!important;
 }
 
-.task-edit-modal-footer {
-    padding: 0!important;
+.task-edit-modal-name-wrapper {
+    display: flex;
 }
-/*
+
+.task-edit-modal-name-icon {
+    color: #56DD82;
+    margin-right: 10px;
+}
+
+.task-edit-modal-footer {
+    padding: 0 !important;
+}
+
+.task-edit-modal-info {
+    color: #818181;
+    font-size: 12px;
+}
+
+.task-edit-modal-info-status {
+    margin-right: 30px;
+}
+
+.task-edit-modal-info b {
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #3F4C5D;
+}
+
+.task-edit-modal-description {
+    margin-top: 20px;
+}
+
+.task-edit-modal-subtitle {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.task-edit-modal-description-buttons-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.task-edit-modal-description-buttons-wrapper button {
+    font-size: 12px;
+    min-width: 70px;
+    padding: 5px 10px;
+    line-height: 1.5;
+    height: auto;
+    box-shadow: none!important;
+}
+
+.task-edit-modal-description-clean-btn {
+    margin-right: 10px;
+    background-color: #fff !important;
+    color: #3F4C5D;
+}
+
+.task-edit-modal-description-save-btn {
+    background-color: #56DD82 !important;
+}
+
+.task-edit-modal-date-field-wrapper {
+    margin-top: -10px;
+}
+
+input.datepicker {
+    width: 90px !important;
+    border-bottom: 1px solid #26A69A !important;
+    box-shadow: 0 1px 0 0 #26A69A !important;
+}
+
+.datepicker-calendar-container button {
+    background-color: initial !important;
+}
+
+.year-text {
+    font-weight: 300;
+}
+
+.date-text {
+    font-size: 30px!important;
+    font-weight: 300!important;
+}
+
+ /*
     Error
 */
-.error-title {
+    .error-title {
     font-size: 30px;
 }
 

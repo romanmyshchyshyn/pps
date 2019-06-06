@@ -96,11 +96,41 @@
 </div>
 
 <div id="task-edit-modal" class="modal">
+    <input type="hidden" id="task-edit-modal-id-input" />
     <div class="modal-content task-edit-modal-content">
-        <h4 class="task-edit-modal-name">Task EDIT</h4>
-        <p>A bunch of text</p>
-    </div>
-    <div class="modal-footer task-edit-modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        <div class="task-edit-modal-name-wrapper">
+            <i class="far fa-sticky-note task-edit-modal-name-icon"></i>
+            <h4 class="task-edit-modal-name"></h4>
+        </div>
+        <div class="task-edit-modal-info">
+            <span class="task-edit-modal-info-status">
+                In
+                <b></b>
+            </span>
+            <span class="task-edit-modal-info-creator">
+                Created by
+                <b></b>
+                on
+                <span class="task-edit-modal-info-creation-date"></span>
+            </span>
+        </div>
+        <div class="task-edit-modal-description">
+            <h5 class="task-edit-modal-subtitle">Add a description</h5>
+            <div class="input-field">
+                <textarea id="task-edit-modal-description-textarea" class="materialize-textarea"></textarea>
+                <label for="task-edit-modal-description-textarea">Description</label>
+            </div>
+            <div class="task-edit-modal-description-buttons-wrapper">
+                <button class="btn waves-effect task-edit-modal-description-clean-btn">Clean</button>
+                <button class="btn waves-effect task-edit-modal-description-save-btn">Save</button>
+            </div>
+        </div>
+        <div class="task-edit-modal-date">
+            <h5 class="task-edit-modal-subtitle">Due date</h5>
+            <div class="input-field task-edit-modal-date-field-wrapper">
+                <i class="far fa-calendar-alt"></i>
+                <input type="text" class="datepicker">
+            </div>            
+        </div>
     </div>
 </div>

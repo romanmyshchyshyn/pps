@@ -2,11 +2,44 @@
     const url = "http://localhost:50704/";
     const inviteMemberUrl = url + "Project/InviteMember";
     const addTaskUrl = url + "CustomTask/Create";
-    const editTaskUrl = url + "CustomTask/Edit";
+    const editTaskDescriptionUrl = url + "CustomTask/EditDescription";
     const getTaskUrl = url + "CustomTask/Get";
     const updateTaskStatusUrl = url + "CustomTask/UpdateStatus";
 
+    function formatDate(d) {
+        var d_names = new Array("Sunday", "Monday", "Tuesday",
+            "Wednesday", "Thursday", "Friday", "Saturday");
+
+        var m_names = new Array("January", "February", "March",
+            "April", "May", "June", "July", "August", "September",
+            "October", "November", "December");
+        
+        var curr_day = d.getDay();
+        var curr_date = d.getDate();
+        var sup = "";
+        if (curr_date === 1 || curr_date === 21 || curr_date === 31) {
+            sup = "st";
+        }
+        else if (curr_date === 2 || curr_date === 22) {
+            sup = "nd";
+        }
+        else if (curr_date === 3 || curr_date === 23) {
+            sup = "rd";
+        }
+        else {
+            sup = "th";
+        }
+        var curr_month = d.getMonth();
+        var curr_year = d.getFullYear();
+
+        return (d_names[curr_day] + " " + curr_date + "<SUP>"
+            + sup + "</SUP> " + m_names[curr_month] + " " + curr_year);
+    }
+
     M.updateTextFields();
+    $('.datepicker').datepicker({
+        container: document.body
+    });
 
     $(".dropdown-trigger").dropdown({
         coverTrigger: false,
@@ -111,6 +144,7 @@
                     <h4 class="project-tasks-table-item-title">
                         
                     </h4>
+                    <a class="waves-effect waves-light modal-trigger task-edit-modal-trigger" href="#task-edit-modal"></a>
                 </div>`;
 
                 const tableContent = $(this).closest('.project-tasks-table').find('.project-tasks-table-content');
@@ -129,12 +163,39 @@
     $('.task-edit-modal-trigger').click(function () {
         const taskId = $(this).closest('.project-tasks-table-item').attr("taskId");
         const taskNameField = $('.task-edit-modal-name');
-
+        const taskStatusElem = $('.task-edit-modal-info-status b');
+        const taskCreatorElem = $('.task-edit-modal-info-creator b');
+        const taskCreationDateElem = $('.task-edit-modal-info-creation-date');
+        const taskIdInput = $('#task-edit-modal-id-input');
+        const taskDescriptionTextarea = $('#task-edit-modal-description-textarea');
+        
         console.log(getTaskUrl + `?id=${taskId}`);
 
         $.get(getTaskUrl + `?id=${taskId}`, function (task) {
+            taskIdInput.val(task.id);
             taskNameField.text(task.name);
+            taskStatusElem.text(task.status);
+            taskCreatorElem.text(task.userCreatorFullName);
+            taskCreationDateElem.html(formatDate(new Date(task.creationDate)));
+            taskDescriptionTextarea.val(task.description);
+
+            M.updateTextFields();
         })
         .fail(error => console.log(error));
+    });
+
+    $('.task-edit-modal-description-clean-btn').click(function () {
+        const textareaElem = $(this).closest('.task-edit-modal-description').find('#task-edit-modal-description-textarea');
+        textareaElem.val("");
+    });
+
+    $('.task-edit-modal-description-save-btn').click(function () {
+        const textareaElem = $(this).closest('.task-edit-modal-description').find('#task-edit-modal-description-textarea');
+        const description = textareaElem.val();
+        const taskId = $('#task-edit-modal-id-input').val();
+
+        $.post(editTaskDescriptionUrl, { id: taskId, description: description })
+            .done(data => data)
+            .fail(error => console.log(error));
     });
 });
