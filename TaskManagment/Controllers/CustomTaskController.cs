@@ -46,7 +46,8 @@ namespace TaskManagment.Controllers
                 Status = cVm.Status,
                 ProjectId = cVm.ProjectId,
                 UserAssigneeId = user.Id,
-                UserCreatorId = user.Id
+                UserCreatorId = user.Id,
+                CreationDate = DateTime.Now
             };
 
             _service.Add(dto);
@@ -73,6 +74,37 @@ namespace TaskManagment.Controllers
             ((ICustomTaskService)_service).UpdateStatus(id, status);
 
             return Ok();
-        }        
+        }
+        
+        [HttpGet]
+        [Produces("application/json")]
+        public IActionResult Get(string id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var dto = _service.Get(id);
+
+            var vm = new CustomTaskViewModel
+            {
+                Id = dto.Id,
+                Name = dto.Name,
+                Description = dto.Description,
+                CreationDate = dto.CreationDate,
+                Deadline = dto.Deadline,
+                EstimateTime = dto.EstimateTime,
+                Status = dto.Status,
+
+                UserCreatorFullName = dto.UserCreator.FullName,
+
+                UserAssigneeId = dto.UserAssigneeId,
+                UserAssigneeFullName = dto.UserAssignee.FullName,
+                UserAssigneeImagePath = dto.UserAssignee.ImagePath
+            };
+
+            return Ok(vm);
+        }
     }
 }

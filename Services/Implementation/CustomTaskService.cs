@@ -25,6 +25,8 @@ namespace Services.Implementation
         {
             CustomTask entity = Repository
               .Get(e => e.Id == id)
+              .Include(e => e.UserAssignee)
+              .Include(e => e.UserCreator)              
               .SingleOrDefault();
 
             if (entity == null)

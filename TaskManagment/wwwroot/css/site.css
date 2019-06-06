@@ -709,6 +709,8 @@ footer .nav-wrapper {
     align-items: center;
     flex-wrap: wrap;
     padding: 5px 16px;
+    cursor: pointer;
+    position: relative;
 }
 
 .project-tasks-table-item-user-image {
@@ -757,6 +759,25 @@ footer .nav-wrapper {
     background-color: #56DD82 !important;
 }
 
+.task-edit-modal-trigger {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#task-edit-modal {
+    max-width: 640px;
+    padding: 30px 40px;
+}
+
+.task-edit-modal-content {
+    padding: 0!important;
+}
+
+.task-edit-modal-footer {
+    padding: 0!important;
+}
 /*
     Error
 */

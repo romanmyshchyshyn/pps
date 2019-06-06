@@ -2,6 +2,8 @@
     const url = "http://localhost:50704/";
     const inviteMemberUrl = url + "Project/InviteMember";
     const addTaskUrl = url + "CustomTask/Create";
+    const editTaskUrl = url + "CustomTask/Edit";
+    const getTaskUrl = url + "CustomTask/Get";
     const updateTaskStatusUrl = url + "CustomTask/UpdateStatus";
 
     M.updateTextFields();
@@ -107,12 +109,13 @@
                        
                     </div>
                     <h4 class="project-tasks-table-item-title">
-                        ${task.name}
+                        
                     </h4>
                 </div>`;
 
                 const tableContent = $(this).closest('.project-tasks-table').find('.project-tasks-table-content');
                 const templateElem = $(template);
+                templateElem.find('.project-tasks-table-item-title').text(task.name);
                 templateElem.css({ display: 'none' });
                 tableContent.prepend(templateElem);
                 templateElem.slideDown(500);
@@ -123,4 +126,15 @@
         $(this).closest('.project-tasks-table-add-task').slideUp(500);
     });
 
+    $('.task-edit-modal-trigger').click(function () {
+        const taskId = $(this).closest('.project-tasks-table-item').attr("taskId");
+        const taskNameField = $('.task-edit-modal-name');
+
+        console.log(getTaskUrl + `?id=${taskId}`);
+
+        $.get(getTaskUrl + `?id=${taskId}`, function (task) {
+            taskNameField.text(task.name);
+        })
+        .fail(error => console.log(error));
+    });
 });
