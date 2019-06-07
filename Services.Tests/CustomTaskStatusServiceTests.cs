@@ -20,6 +20,14 @@ namespace Services.Tests
 
         public CustomTaskStatusServiceTests()
         {
+            try
+            {
+                AutoMapper.Mapper.Initialize(p => { });
+            }
+            catch (Exception)
+            {
+            }
+
             _customTasks = new List<CustomTaskStatus>
             {
                 new CustomTaskStatus { Name = "CT1", Index = 1 },
@@ -31,14 +39,6 @@ namespace Services.Tests
         [Fact]
         public void GetByFilterTest()
         {
-            try
-            {
-                AutoMapper.Mapper.Initialize(p => { });
-            }
-            catch (Exception)
-            {
-            }
-
             //Arange
             Mock<IUnitOfWork> unitOfWorkMock = new Mock<IUnitOfWork>();
             Mock<IRepository<CustomTaskStatus>> repositoryMock = new Mock<IRepository<CustomTaskStatus>>();

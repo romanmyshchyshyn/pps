@@ -39,14 +39,6 @@ namespace Services.Tests
         [Fact]
         public void GetByFilterTest()
         {
-            try
-            {
-                AutoMapper.Mapper.Initialize(p => { });
-            }
-            catch (Exception)
-            {
-            }
-
             //Arange
             Mock<IUnitOfWork> unitOfWorkMock = new Mock<IUnitOfWork>();
             Mock<IRepository<Project>> repositoryMock = new Mock<IRepository<Project>>();
