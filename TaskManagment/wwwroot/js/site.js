@@ -3,6 +3,7 @@
     const inviteMemberUrl = url + "Project/InviteMember";
     const addTaskUrl = url + "CustomTask/Create";
     const editTaskDescriptionUrl = url + "CustomTask/EditDescription";
+    const editTaskDeadlineUrl = url + "CustomTask/EditDeadline";
     const getTaskUrl = url + "CustomTask/Get";
     const updateTaskStatusUrl = url + "CustomTask/UpdateStatus";
 
@@ -36,9 +37,31 @@
             + sup + "</SUP> " + m_names[curr_month] + " " + curr_year);
     }
 
+    function formatDateForDataPicker(d) {
+
+        var m_names = new Array("Jan", "Feb", "Mar",
+            "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+            "Oct", "Nov", "Dec");
+
+        var curr_month = d.getMonth();
+        var curr_date = d.getDate();
+        var curr_year = d.getFullYear();
+
+        return m_names[curr_month] + " " + curr_date + ", " + curr_year;
+    }
+
+
     M.updateTextFields();
     $('.datepicker').datepicker({
-        container: document.body
+        container: document.body,
+        minDate: new Date(),
+        onSelect: function (date) {
+
+            const taskId = $('#task-edit-modal-id-input').val();
+            $.post(editTaskDeadlineUrl, { id: taskId, deadline: date })
+                .done(data => data)
+                .fail(error => console.log(error));
+        }        
     });
 
     $(".dropdown-trigger").dropdown({
@@ -168,6 +191,7 @@
         const taskCreationDateElem = $('.task-edit-modal-info-creation-date');
         const taskIdInput = $('#task-edit-modal-id-input');
         const taskDescriptionTextarea = $('#task-edit-modal-description-textarea');
+        const taskDeadlineInput = $('.task-edit-modal-deadline-input');
         
         console.log(getTaskUrl + `?id=${taskId}`);
 
@@ -178,6 +202,7 @@
             taskCreatorElem.text(task.userCreatorFullName);
             taskCreationDateElem.html(formatDate(new Date(task.creationDate)));
             taskDescriptionTextarea.val(task.description);
+            taskDeadlineInput.val(formatDateForDataPicker(new Date(task.deadline)));
 
             M.updateTextFields();
         })

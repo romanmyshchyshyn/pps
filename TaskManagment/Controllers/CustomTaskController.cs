@@ -122,5 +122,23 @@ namespace TaskManagment.Controllers
 
             return Ok();
         }
+
+        [HttpPost]
+        [Produces("application/json")]
+        public IActionResult EditDeadline(string id, string deadline)
+        {
+            if (id == null || deadline == null)
+            {
+                return BadRequest();
+            }
+
+            deadline = deadline.Remove(deadline.IndexOf(" GMT"));
+
+            var dto = _service.Get(id);
+            dto.Deadline = DateTime.Parse(deadline);
+            _service.Update(dto);
+
+            return Ok();
+        }
     }
 }
